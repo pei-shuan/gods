@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地景GIS平台 - 首頁</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #FDF8F1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .navbar {
+            background-color: #F2D3A4;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            color: black;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: normal;
+        }
+
+        .navbar a:hover {
+            background-color: white;
+            padding: 5px;
+        }
+
+        .navbar a.active {
+            font-weight: bold;
+        }
+
+        .navbar .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+      
+        /* 側邊欄 */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #F2D3A4;
+            color: black;
+            transition: right 0.3s ease;
+            z-index: 1500;
+            padding-top: 60px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            display: block;
+            font-size: 16px;
+            color: black;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar a i {
+            margin-right: 8px;
+        }
+
+        .sidebar a:hover {
+            background-color: #EEE;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+      
+        .content {
+            display: flex;
+            flex: 1;
+            padding: 120px 20px 60px;
+        }
+
+        .query-section {
+            width: 40%;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            margin-right: 20px;
+            overflow-y: auto;
+        }
+
+        .query-section h3 {
+            margin-bottom: 10px;
+        }
+
+        .query-section select,
+        .query-section input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-wrapper input {
+            flex: 1;
+            padding: 10px;
+            padding-right: 40px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-wrapper .fa-search {
+            position: absolute;
+            right: 10px;
+            top: 35%;
+            transform: translateY(-50%);
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        .data-list {
+            margin-top: 20px;
+        }
+
+        .data-item {
+            padding: 15px;
+            background-color: #f9f9f9;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .data-item:hover {
+            background-color: #ddd;
+        }
+
+        .go-button {
+            color: #007bff;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .pagination {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            padding: 10px 15px;
+            text-decoration: none;
+            background-color: #EEA970;
+            color: white;
+            border-radius: 5px;
+        }
+
+        .pagination a:hover {
+            background-color: #555;
+        }
+
+        .map-section {
+            width: 60%;
+            height: 100%;
+            background-color: #FDF8F1;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="homepage.html"><img src="Img/logo.png" style=" width: 7%; height: 15%;">
+            <img src="Img/Gis of gods.png" style=" width: 15%; height: 12%; margin-right: 76%; margin-top: 1.5%;">
+        </a>
+        <div class="menu">
+            <a href="homepage.html" class="active">首頁</a>
+            <a href="count_gods.php">崇敬對象</a>
+            <a href="gods_chatroom.html">問事</a>
+            <i class="fas fa-bars" id="menu-icon" style="cursor: pointer; color: black;"></i>
+        </div>
+    </div>
+  
+    <!-- 側邊欄 -->
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" id="close-btn">&times;</span>
+        <a href="management/manager_login.html"><i class="fas fa-user-cog"></i> 管理者</a>
+        <a href="#">設定</a>
+        <a href="#">幫助</a>
+        <a href="#">聯繫我們</a>
+    </div>
+
+    <div class="content">
+        <div class="query-section">
+        <body>
+            <h2>查詢條件</h2>
+       
+            <!-- 縣市選單 -->
+            <label for="city">縣市：</label>
+            <select id="citySelect">
+                <option value="">請選擇縣市</option>
+                <option value="臺北市">臺北市</option>
+                <option value="新北市">新北市</option>
+                <option value="基隆市">基隆市</option>
+                <option value="桃園市">桃園市</option>
+                <option value="新竹縣">新竹縣</option>
+                <option value="苗栗縣">苗栗縣</option>
+                <option value="臺中市">臺中市</option>
+                <option value="彰化縣">彰化縣</option>
+                <option value="南投縣">南投縣</option>
+                <option value="雲林縣">雲林縣</option>
+                <option value="嘉義縣">嘉義縣</option>
+                <option value="臺南市">臺南市</option>
+                <option value="高雄市">高雄市</option>
+                <option value="屏東縣">屏東縣</option>
+                <option value="宜蘭縣">宜蘭縣</option>
+                <option value="花蓮縣">花蓮縣</option>
+                <option value="臺東縣">臺東縣</option>
+                <option value="金門縣">金門縣</option>
+                <option value="澎湖縣">澎湖縣</option>
+            </select>
+       
+            <!-- 鄉鎮市區選單 -->
+            <label for="town">鄉鎮市區：</label>
+        <select id="townSelect" disabled>
+            <option value="">請選擇鄉鎮市區</option>
+        </select>
+        <script>
+            document.getElementById("citySelect").addEventListener("change", (event) => {
+    const cityId = event.target.value;
+    populateTownSelect(cityId);
+});
+document.getElementById("citySelect").addEventListener("change", function () {
+    const cityId = this.value;
+    populateTownSelect(cityId);
+    fetchTemples(cityId, 0); // 更新地圖，只篩選 city_id
+});
+document.getElementById("townSelect").addEventListener("change", function () {
+    const countyId = this.value;
+    const cityId = document.getElementById("citySelect").value;
+    fetchTemples(cityId, countyId); // 更新地圖，同時篩選 city_id 和 county_id
+});
+        </script>
+            <label for="category">分類</label>
+            <select id="category">
+                <option value="公園">公園</option>
+                <option value="景點">景點</option>
+                <option value="歷史遺跡">歷史遺跡</option>
+            </select>
+
+
+        <button id="searchButton">Search</button>
+
+
+            <h3>地景名稱</h3>
+            <div class="search-wrapper">
+                <input type="text" placeholder="輸入地景名稱...">
+                <i id="search-icon" class="fas fa-search"></i>
+            </div>
+
+            <div class="data-list" id="data-list"></div>
+
+            <div class="pagination" id="pagination"></div>
+        </div>
+
+        <div class="map-section">
+            <div id="map" style="width: 100%; height: 100%;"></div>
+
+            <!-- 加入 async 和 defer 屬性來確保 Google Maps API 正確載入後觸發 initMap() -->
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeM6daogKnCdOP9aNvIksp0eiv_vCYswI&callback=initMap"></script>
+            <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+            <!-- 載入自訂 JavaScript -->
+            <script src="data.js"></script>
+        </div>
+    </div>
+
+
+    <script>
+        
+        const sidebar = document.getElementById("sidebar");
+        const menuIcon = document.getElementById("menu-icon");
+        const closeBtn = document.getElementById("close-btn");
+
+        menuIcon.addEventListener("click", () => {
+            sidebar.style.right = "0"; // 顯示側邊欄
+        });
+
+        closeBtn.addEventListener("click", () => {
+            sidebar.style.right = "-250px"; // 隱藏側邊欄
+        });
+      
+        const data = [
+            '資料 1', '資料 2', '資料 3', '資料 4', '資料 5',
+            '資料 6', '資料 7', '資料 8', '資料 9', '資料 10',
+            '資料 11', '資料 12', '資料 13', '資料 14', '資料 15',
+            '資料 16'
+        ];
+
+        const itemsPerPage = 5;
+        let currentPage = 1;
+
+        function displayData(page) {
+            const dataList = document.getElementById('data-list');
+            dataList.innerHTML = '';
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedItems = data.slice(start, end);
+            paginatedItems.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('data-item');
+                div.innerHTML = `
+                    <span>${item}</span>
+                    <span class="go-button">GO</span>
+                `;
+                dataList.appendChild(div);
+            });
+        }
+
+        function displayPagination() {
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+            const totalPages = Math.ceil(data.length / itemsPerPage);
+            for (let i = 1; i <= totalPages; i++) {
+                const a = document.createElement('a');
+                a.href = '#';
+                a.textContent = i;
+                a.addEventListener('click', () => {
+                    currentPage = i;
+                    displayData(currentPage);
+                });
+                pagination.appendChild(a);
+            }
+        }
+        displayData(currentPage);
+        displayPagination();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>宗教地景管理</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- 引入 Google 字體 Dancing Script -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <style>
+        /* 全局樣式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        /* 導覽列樣式 */
+        .navbar {
+            background-color: black;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: 30px; /* 導覽列的固定高度 */
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0px;
+            font-weight: normal;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .navbar img {
+            vertical-align: middle;
+        }
+
+        .menu-icon {
+            margin-right: -1220px;/*icon跟logo的間距*/
+            font-size: 18px;/*側邊欄icon大小*/
+            color: white;
+            cursor: pointer;
+        }
+
+        .menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar .menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;/*登出icon大小*/
+            margin-left: 15px;
+        }
+
+        /* 主內容區樣式 */
+        .content {
+            display: flex;
+            min-height: calc(100vh - 60px); /* 設置內容區的最小高度，確保不被導覽列遮擋 */
+            margin-top: 55px; /* 確保內容不被固定的導覽列遮住 */
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            border-radius: 8px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 10px; /* 控制select和input之間的間距 */
+            justify-content: flex-start; /* 分配空間 */
+            align-items: center; /* 垂直對齊 */
+            margin-bottom: 0px; /* 讓搜尋區域與下面的表格有間距 */
+            position: relative; /* 確保加號按鈕可以絕對定位 */
+        }
+
+        .search-bar select,
+        .search-bar input,
+        .search-bar button {
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .search-bar button {
+            background-color: black;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+
+        .search-bar button:hover {
+            background-color: #555;
+        }
+
+        /* 新增加號按鈕 */
+        .add-btn {
+            background-color: #28a745;
+            color: white;
+            cursor: pointer;
+            font-size: 14px; /* 確保與搜尋按鈕的字型大小一致 */
+            padding: 10px 15px; /* 確保加號按鈕的大小與搜尋按鈕一致 */
+            border-radius: 4px;
+            border: 1px solid #ccc; /* 確保有外框 */
+            margin-left: auto; /* 調整間距，使它不會與搜尋框重疊 */
+        }
+
+        .add-btn:hover {
+            background-color: #555;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 0px;
+        }
+
+        /* 默認樣式 */
+        .data-table th,
+        .data-table td {
+            text-align: left;
+            padding: 10px 10px; /* 默認間距 */
+            border-bottom: 1px solid #ccc;
+        }
+
+        .data-table th {
+            background-color: #f4f4f4;
+        }
+
+        /* 狀態獨立間距 */
+        .data-table .column-id {
+            padding-left: 20px; /* ID 欄的左間距 */
+            padding-right: 10px; /* ID 欄的右間距 */
+        }
+
+        .data-table .column-name {
+            padding-left: 50px; /* 崇敬對象欄的左間距 */
+            padding-right: 0px; /* 崇敬對象欄的右間距 */
+        }
+
+        .data-table .column-action {
+            padding-left: 0px; /* 操作欄的左間距 */
+            padding-right: 0px; /* 操作欄的右間距 */
+        }
+
+        .data-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .prev-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 14px;
+            border: none;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .prev-btn:hover {
+            background-color: #555;
+        }
+
+        /* 側邊欄新樣式 */
+        .sidebar {
+            position: fixed;
+            top: 50px; /* 側邊欄的起始位置要從導覽列下方開始 */
+            left: -250px;
+            width: 250px;
+            height: calc(100vh - 60px); /* 側邊欄的高度等於視窗高度減去導覽列高度 */
+            background-color: black;
+            box-shadow: 5px 0 10px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            transition: left 0.4s ease;
+            z-index: 1100;
+        }
+
+        .sidebar.open {
+            left: 0;
+        }
+
+        .sidebar nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .sidebar nav a i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .sidebar nav a:hover {
+            background-color: #555;
+            transform: translateX(10px);
+        }
+
+        /* 只修改特定的 GIS OF GODS 標題 */
+        h2.gis-title {
+            font-family: 'Dancing Script', cursive; /* 使用 Dancing Script 字體 */
+            font-size: 28px;
+            color: white; /* 設置字體顏色為番茄紅 */
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- 導覽列 -->
+    <div class="navbar">
+        <i class="fas fa-bars menu-icon" id="menu-icon"></i>
+        <a href="landscape_management.html">
+            <h2 class="gis-title">GIS OF GODS</h2> <!-- 顯示文字 -->
+        </a>
+        <div class="menu">
+            <a href="manager_login.html"><i class="fas fa-user-cog"></i> 登出</a>
+        </div>
+    </div>
+
+    <!-- 主內容區 -->
+    <div class="content">
+        
+        <!-- 側邊欄 -->
+        <div class="sidebar" id="sidebar">
+            <nav>
+                <a href="landscape_management.html"><i class="fas fa-landmark"></i> 宗教地景</a>
+                <a href="deities_management.html"><i class="fas fa-users"></i> 崇敬對象</a>
+                <a href="religion_management.html"><i class="fas fa-book"></i> 宗教類別</a>
+                <a href="county_management.html"><i class="fas fa-map-marked-alt"></i> 縣/市</a>
+                <a href="city_managemaent.html"><i class="fas fa-city"></i> 市/區</a>
+            </nav>
+        </div>
+
+        <div class="main-content" id="main-content">
+            <div class="search-bar">
+                <h2>地景資料管理</h2>
+                <select id="country" onchange="loadCities()">
+                    <option value="">請選擇縣/市</option>
+                </select>
+                <select id="city">
+                    <option value="">請選擇市/區</option>
+                </select>
+                <input type="text" id="landscape_name" placeholder="地景名稱">
+                <button onclick="searchLandscapes()"><i class="fas fa-search"></i></button>
+                <!-- 新增加號按鈕 -->
+                <button class="add-btn" onclick="window.location.href='add_landscape_management.html'"><i class="fas fa-plus"></i></button>
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th class="column-id">ID</th>
+                        <th class="column-name">地景名稱</th>
+                        <th class="column-addr">地址</th>
+                        <th class="column-action">操作</th>
+                    </tr>
+                </thead>
+                <tbody id="landscape-data">
+                    <!-- 資料將由 JavaScript 動態載入 -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCounties();  // 當頁面加載完成後，呼叫函數來加載縣市資料
+        });
+
+        function loadCounties() {
+            fetch('landscape_management.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=getCounties' // 呼叫後端的 getCounties 動作
+            })
+                .then(response => response.json())  // 解析返回的 JSON 資料
+                .then(data => {
+                    const countrySelect = document.getElementById('country');
+                    data.forEach(county => {
+                        const option = document.createElement('option');
+                        option.value = county.id;
+                        option.textContent = county.name;  // 顯示縣市名稱
+                        countrySelect.appendChild(option);  // 加入選單
+                    });
+                });
+        }
+
+        function loadCities() {
+            const countryId = document.getElementById('country').value;
+            fetch('landscape_management.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=getCities&country_id=${countryId}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const citySelect = document.getElementById('city');
+                    citySelect.innerHTML = '<option value="">請選擇市/區</option>';
+                    data.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.id;
+                        option.textContent = city.name;
+                        citySelect.appendChild(option);
+                    });
+                });
+        }
+
+        function searchLandscapes() {
+            const countryId = document.getElementById('country').value;
+            const cityId = document.getElementById('city').value;
+            const name = document.getElementById('landscape_name').value;
+
+            fetch('landscape_management.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=searchLandscapes&country_id=${countryId}&city_id=${cityId}&name=${name}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('landscape-data');
+                    tbody.innerHTML = '';
+                    data.forEach(item => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${item.id}</td>
+                            <td>${item.name}</td>
+                            <td>${item.addr || 'N/A'}</td>
+                            <td><button onclick="deleteLandscape(${item.id})"><i class="fas fa-trash"></i></button></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+        }
+
+        function deleteLandscape(id) {
+            fetch('landscape_management.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=deleteLandscape&id=${id}`
+            })
+                .then(response => response.json())
+                .then(() => searchLandscapes());
+        }
+
+        // 側邊欄切換功能
+        const menuIcon = document.getElementById('menu-icon');
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+
+        menuIcon.addEventListener('click', () => {
+            sidebar.classList.toggle('open');
+        });
+
+        function loadCities() {
+            console.log("載入縣市...");
+        }
+
+        function searchLandscapes() {
+            console.log("執行搜尋...");
+        }
+    </script>
+</body>
+
+</html>

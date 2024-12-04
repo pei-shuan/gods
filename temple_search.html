@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>地景GIS平台 - 神明</title>
+    <!-- FontAwesome CDN for search icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #FDF8F1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* 導覽列 */
+        .navbar {
+            background-color: #F2D3A4;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .navbar a {
+            color: black;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: normal;
+        }
+
+        .navbar a:hover {
+            background-color: white;
+            padding: 5px;
+        }
+
+        .navbar a.active {
+            font-weight: bold;
+        }
+
+        .navbar .logo {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        /* 主體內容 */
+        .content {
+            flex: 1;
+            padding: 70px 20px 60px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 查詢區域 */
+        .search-section {
+            width: 100%;
+            max-width: 1500px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-section h2 {
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .search-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .search-wrapper input {
+            flex: 1;
+            padding: 10px;
+            padding-right: 40px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .search-wrapper .fa-search {
+            position: absolute;
+            right: 10px;
+            color: #007bff;
+            cursor: pointer;
+        }
+
+        /* 資料列表 */
+        .data-header,
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            align-items: center
+        }
+
+        .data-header {
+            font-weight: bold;
+            background-color: #eee;
+        }
+
+        .data-row:hover {
+            background-color: #ddd;
+        }
+
+        /* 將欄位內容首字對齊 */
+        .data-row div,
+        .data-header div {
+            text-align: left;
+            flex: 1;
+        }
+
+        .intro {
+            margin-top: 24px;
+            text-align: right;
+        }
+
+        .intro a {
+            margin: 0 10px;
+            padding: 5px 15px;
+            text-decoration: none;
+            background-color: #EEA970;
+            color: white;
+            border-radius: 5px;
+            
+
+        }
+
+        .intro-section,
+        .intro-row {
+            display: flex;
+            justify-content: flex-start;
+            padding: 15px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        /* 分頁 */
+        .pagination {
+            margin-top: 20px;
+            text-align: right;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            padding: 10px 15px;
+            text-decoration: none;
+            background-color: #EEA970;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .pagination a:hover {
+            background-color: #555;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #F2D3A4;
+            color: black;
+            transition: right 0.3s ease;
+            z-index: 1500;
+            padding-top: 60px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            display: block;
+            font-size: 16px;
+            color: black;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar a i {
+            margin-right: 8px;
+        }
+
+        .sidebar a:hover {
+            background-color: #EEE;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- 導覽列 -->
+    <div class="navbar">
+    </defs><a href="homepage.html"><img src="Img/logo.png" style=" width: 7%; height: 15%;">
+        <img src="Img/Gis of gods.png" style=" width: 15%; height: 12%; margin-right: 76%; margin-top: 1.5%;">
+        </a>
+        <div>
+            <a href="homepage.html" class="active">首頁</a>
+            <a href="count_gods.php">崇敬對象</a>
+            <a href="gods_chatroom.html">問事</a>
+            <i class="fas fa-bars" id="menu-icon" style="cursor: pointer; color: black;"></i>
+        </div>
+    </div>
+
+    <!-- 側邊欄 -->
+    <div class="sidebar" id="sidebar">
+        <span class="close-btn" id="close-btn">&times;</span>
+        <a href="management/manager_login.html"><i class="fas fa-user-cog"></i> 管理者</a>
+        <a href="#">設定</a>
+        <a href="#">幫助</a>
+        <a href="#">聯繫我們</a>
+    </div>
+
+    <!-- 主要內容 -->
+    <div class="content">
+        <div class="search-section">
+            <div class="intro-section">
+                <h2>靈安尊王</h2><span class="intro"><a href="#">介紹</a></span>
+            </div>
+            <div class="search-wrapper">
+                <input type="text" placeholder="名稱搜尋">
+                <i class="fas fa-search"></i>
+            </div>
+
+            <!-- 資料列表 -->
+            <div class="data-header" >
+                <div>廟宇外觀</div>
+                <div>廟宇名稱</div>
+                <div>廟宇地址</div>
+            </div>
+            <div id="data-list"></div>
+
+            <!-- 分頁 -->
+            <div class="pagination" id="pagination"></div>
+        </div>
+    </div>
+
+    <script>
+
+        // 顯示側邊欄
+        const sidebar = document.getElementById("sidebar");
+        const menuIcon = document.getElementById("menu-icon");
+        const closeBtn = document.getElementById("close-btn");
+
+        menuIcon.addEventListener("click", () => {
+            sidebar.style.right = "0"; // 顯示側邊欄
+        });
+
+        closeBtn.addEventListener("click", () => {
+            sidebar.style.right = "-250px"; // 隱藏側邊欄
+        });
+
+        const data = [
+            { img:"",name: "新莊靈世宮", category: "地址1", url: "temple_info.html" },
+            { img:"",name: "關聖帝君廟", category: "地址2"},
+            { img:"",name: "xx廟", category: "地址3" },
+            { img:"",name: "xxx廟", category: "地址4"},
+            { img:"",name: "xxxx廟", category: "地址5"},
+            { img:"",name: "xxxxx廟", category: "地址6"},
+            { img:"",name: "xxxxxx廟", category: "地址7"},
+            { img:"",name: "xxxxxx廟", category: "地址8"},
+            { img:"",name: "xxxxxxx廟", category: "地址9"},
+            { img:"",name: "xxxxxxxx廟", category: "地址10"},
+            { img:"",name: "xxxxxxxxx廟", category: "地址11"}
+        ];
+
+        const itemsPerPage = 5;
+        let currentPage = 1;
+
+        function displayData(page) {
+            const dataList = document.getElementById('data-list');
+            dataList.innerHTML = '';
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedItems = data.slice(start, end);
+            paginatedItems.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('data-row');
+                div.innerHTML = `<div><img src="Img/logo.png" width="60" height="60" border="0"></div><div>${item.name}</div><div>${item.category}</div>`;
+                div.onclick = () => {
+                    window.location.href = item.url;
+                };
+                dataList.appendChild(div);
+            });
+        }
+
+        function setupPagination() {
+            const pagination = document.getElementById('pagination');
+            const pageCount = Math.ceil(data.length / itemsPerPage);
+            pagination.innerHTML = '';
+
+            for (let i = 1; i <= pageCount; i++) {
+                const a = document.createElement('a');
+                a.href = '#';
+                a.innerText = i;
+                a.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    currentPage = i;
+                    displayData(currentPage);
+                });
+                pagination.appendChild(a);
+            }
+        }
+
+        displayData(currentPage);
+        setupPagination();
+    </script>
+
+</body>
+
+</html>

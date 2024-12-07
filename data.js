@@ -34,7 +34,6 @@ function initMap() {
     });
 
     populateCitySelect();
-
     document.getElementById("citySelect").addEventListener("change", function() {
         populateTownSelect(this.value);
     });
@@ -45,16 +44,17 @@ function initMap() {
         fetchTemples(selectedCity, selectedTown);
     });
 }
-
 function fetchTemples(city = '', town = '') {
     const url = new URL('get_temples.php', window.location.href);
+
+    // 動態添加查詢參數
     if (city) url.searchParams.append('city', city);
-    if (town) url.searchParams.append('town', town);
+    if (town && town !== '') url.searchParams.append('town', town);
 
     fetch(url)
         .then(response => response.json())
         .then(locations => {
-            // Clear previous markers and clusters
+            // 清除之前的地標和群集
             if (markers.length > 0) {
                 markers.forEach(marker => marker.setMap(null));
                 markers = [];
@@ -63,6 +63,7 @@ function fetchTemples(city = '', town = '') {
                 mapCluster.clearMarkers();
             }
 
+            // 將新地標添加到地圖
             markers = locations.map(location => {
                 const marker = new google.maps.Marker({
                     position: location.position,
@@ -70,6 +71,7 @@ function fetchTemples(city = '', town = '') {
                     map: map,
                 });
 
+                // 添加資訊視窗
                 const infowindow = new google.maps.InfoWindow({
                     content: `<div><h1>${location.name}</h1><p>地址: ${location.address}</p></div>`,
                 });
@@ -81,7 +83,7 @@ function fetchTemples(city = '', town = '') {
                 return marker;
             });
 
-            // Apply clustering to new markers
+            // 添加地標群集
             mapCluster = new markerClusterer.MarkerClusterer({
                 map: map,
                 markers: markers,
@@ -104,6 +106,7 @@ function populateCitySelect() {
         citySelect.appendChild(option);
     });
 }
+
 
 function populateTownSelect(city) {
     const townSelect = document.getElementById("townSelect");

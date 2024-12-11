@@ -39,75 +39,39 @@ body {
     font-weight: bold;
 }
 
+/* 主體內容 */
 .content {
-    flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: 20px 50px;
-    background-image: url('Img/logo.png');
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    background-size: 25%;
-}
-
-.chat-window {
     flex: 1;
-    overflow-y: auto;
-    padding-bottom: 10px;
-    width: 50%;
-    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    padding: 70px 20px 60px;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
 }
 
-.chat-message {
-    display: flex;
-    align-items: flex-end;
-    margin-bottom: 15px;
+/* 中央媽祖區域 */
+.ma-zu-section {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.chat-message.mazu {
-    justify-content: flex-start;
+.ma-zu-section img {
+    width: 150px;
+    height: auto;
 }
 
-.chat-message.user {
-    justify-content: flex-end;
-}
-
-.chat-message img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.chat-message.user img {
-    margin-left: 10px;
-    margin-right: 0;
-}
-
-.message-bubble {
-    max-width: 60%;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: #CAF0F8;
-    color: black;
-    font-size: 14px;
-}
-
-.chat-message.user .message-bubble {
-    background-color: #CAF0F8;    
-}
-
+/* 查詢區域 */
 .query-section {
-    width: 50%;
-    margin: 0 auto;
-    padding: 10px;
+    width: 40%;
+    padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
     display: flex;
     align-items: center;
-    box-sizing: border-box;
 }
 
 .query-section input[type="text"] {
@@ -118,9 +82,14 @@ body {
     box-sizing: border-box;
 }
 
-.query-section .bi-send-fill {
+.query-section .fa-paper-plane {
     margin-left: 10px;
     font-size: 20px;
-    color: #076585;
+    color: #007bff;
     cursor: pointer;
+}
+
+/* 淡出動畫效果 */
+.fade-out {
+    opacity: 0;
 }

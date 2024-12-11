@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>心理師聊天室</title>
+    <title>耶穌聊天室</title>
     <!-- FontAwesome CDN for search and send icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="CSS/psychologist_chatroom.css">
@@ -29,16 +29,9 @@
                 <a href="#">崇敬對象</a>
                 <a href="character.html"  class="active">問事</a>
                 <a href="login.html">管理者</a>
-                <i class="fas fa-bars" id="menu-icon" style="cursor: pointer; color: white  ;"></i>                
+                          
             </div>
         </div>
-    </div>
-
-    <div class="sidebar" id="sidebar">
-        <span class="close-btn" id="close-btn">&times;</span>
-        <a href="#">設定</a>
-        <a href="#">幫助</a>
-        <a href="#">聯繫我們</a>
     </div>
 
     <div class="content">
@@ -51,7 +44,7 @@
 
         <div class="query-section">
             <input type="text" placeholder="說點什麼..." id="message-input">
-            <i class="bi bi-send-fill" id="send-button"></i>      
+            <i class="bi bi-send-fill" id="send-button"></i>        
         </div>
     </div>
 
@@ -59,18 +52,6 @@
         window.onload = function () {
             document.body.classList.add('loaded');
         }
-
-        const sidebar = document.getElementById("sidebar");
-        const menuIcon = document.getElementById("menu-icon");
-        const closeBtn = document.getElementById("close-btn");
-
-        menuIcon.addEventListener("click", () => {
-            sidebar.style.right = "0";
-        });
-
-        closeBtn.addEventListener("click", () => {
-            sidebar.style.right = "-250px";
-        });
 
         const chatWindow = document.getElementById('chat-window');
         const messageInput = document.getElementById('message-input');
@@ -109,7 +90,7 @@
                         const mazuMessage = document.createElement('div');
                         mazuMessage.classList.add('chat-message', 'mazu');
                         mazuMessage.innerHTML = `
-        <img src="Img/logo.png" alt="媽祖">
+        <img src="Img/耶穌.jpg" alt="耶穌">
         <div class="message-bubble" id="mazu-response-${chatWindow.childElementCount}"></div>
     `;
                         chatWindow.appendChild(mazuMessage);
@@ -146,7 +127,7 @@
                         const errorMessage = document.createElement('div');
                         errorMessage.classList.add('chat-message', 'mazu');
                         errorMessage.innerHTML = `
-                            <img src="Img/logo.png" alt="媽祖">
+                            <img src="Img/耶穌.jpg" alt="耶穌">
                             <div class="message-bubble">抱歉，發生錯誤，請稍後再試。</div>
                         `;
                         chatWindow.appendChild(errorMessage);

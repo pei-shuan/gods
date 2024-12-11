@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>地景GIS平台 - 首頁</title>
+    <title>地景GIS平台 - 管理者</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -25,24 +25,15 @@
 
             <!-- 導覽列右側 -->
             <div class="menu col-3">
-                <a href="homepage.html" class="active">首頁</a>
+                <a href="homepage.html">首頁</a>
                 <a href="#">崇敬對象</a>
                 <a href="character.html">問事</a>
-                <a href="login.html">管理者</a>
-                <i class="fas fa-bars" id="menu-icon" style="cursor: pointer; color: white;"></i>                
+                <a href="login.html"  class="active">管理者</a>
+                              
             </div>
         </div>
     </div>
   
-    <!-- 側邊欄 -->
-    <div class="sidebar" id="sidebar">
-        <span class="close-btn" id="close-btn">&times;</span>
-        
-        <a href="#">設定</a>
-        <a href="#">幫助</a>
-        <a href="#">聯繫我們</a>
-    </div>
-
     <div class="content">
         <div class="login">
             <div class="logo_photo">
@@ -63,18 +54,7 @@
     </div>
 
 
-    <script>
-        const sidebar = document.getElementById("sidebar");
-        const menuIcon = document.getElementById("menu-icon");
-        const closeBtn = document.getElementById("close-btn");
-
-        menuIcon.addEventListener("click", () => {
-            sidebar.classList.toggle("open"); // 顯示或隱藏側邊欄
-        });
-
-        closeBtn.addEventListener("click", () => {
-            sidebar.classList.remove("open"); // 隱藏側邊欄
-        });
+    <script>  
 
         // 管理者登入表單驗證
         const loginForm = document.getElementById("login-form");
@@ -98,6 +78,8 @@
 
             errorMessage.textContent = "";
             alert("登入成功！"); // 可以在這裡導向管理者頁面
+            window.location.replace("management/landscape_management.html");
+
         });
     </script>
 

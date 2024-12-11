@@ -8,8 +8,10 @@ body {
 
 /* 導覽列 */
 .navbar {
-    background-color: #F2D3A4;    
-    z-index: 1000;
+    background: #076585;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #fff, #076585);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #fff, #076585); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+    z-index: 1000;    
 }
 
 /* 導覽列右側(首頁、崇敬對象、問事、管理者) */
@@ -27,7 +29,7 @@ body {
 
 /* 導覽列超連結 */
 .navbar a {
-    color: black;
+    color: white;
     margin: 0 15px;
     text-decoration: none;
     font-size: large;

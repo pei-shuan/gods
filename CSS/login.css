@@ -82,105 +82,58 @@ body {
 .content {
     display: flex;
     flex: 1;
-    padding: 0 50px 20px 60px;
+    padding: 50px 20px 60px;
     background: #076585;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #fff, #076585);  /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #fff, #076585); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
     
 }
 
-.query-section {
-    width: 40%;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    margin-right: 20px;
-    overflow-y: auto;
+/* 登入方塊 */
+.login{
+    background-color: white;
+    width: 30%;
+    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.query-section h3 {
-    margin-bottom: 10px;    
-}
-
-.query-section select,
-.query-section input[type="text"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-.search-wrapper {
-    position: relative;
+/* 登入方塊上方圖片區塊 */
+.logo_photo{
     display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+    justify-content: center;
+    padding-top: 10%;
 }
 
-.search-wrapper input {
-    flex: 1;
-    padding: 10px;
-    padding-right: 40px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+/* 登入方塊上方圖片 */
+.logo_photo img{
+    width: 50%;
 }
 
-.search-wrapper .fa-search {
-    position: absolute;
-    right: 10px;
-    top: 35%;
-    transform: translateY(-50%);
-    color: #007bff;
-    cursor: pointer;
-}
-
-.data-list {
-    margin-top: 20px;
-}
-
-.data-item {
-    padding: 15px;
-    background-color: #f9f9f9;
-    margin-bottom: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.data-item:hover {
-    background-color: #ddd;
-}
-
-.go-button {
-    color: #007bff;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.pagination {
+.type_area{
     text-align: center;
-    margin-top: 20px;
+    padding-top: 10%;            
 }
 
-.pagination a {
-    margin: 0 5px;
-    padding: 10px 15px;
-    text-decoration: none;
-    background-color: #0077B6;
-    color: white;
+#login-form{
+    padding-top: 2rem;
+}
+
+input{    
+    width: 80%;
     border-radius: 5px;
+    border: 1px solid #808080;
+    margin: 5px;
 }
 
-.pagination a:hover {
-    background-color: #0096C7;
+button{
+    width: 80%;
+    background-color: #0077B6;    
+    border:none ;
+    color: white;
+    transition: all 0.3s ease;    
 }
 
-.map-section {
-    width: 60%;
-    height: 100%;
-    background-color: #FDF8F1;
+button:hover{
+    background-color:#023E8A;    
 }

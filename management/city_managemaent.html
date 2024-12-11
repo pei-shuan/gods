@@ -189,21 +189,20 @@
         /* 側邊欄新樣式 */
         .sidebar {
             position: fixed;
-            top: 50px; /* 側邊欄的起始位置要從導覽列下方開始 */
-            left: -250px;
+            top: 50px;
+            left: 0;
             width: 250px;
-            height: calc(100vh - 60px); /* 側邊欄的高度等於視窗高度減去導覽列高度 */
+            height: calc(100vh - 60px);
             background-color: black;
-            box-shadow: 5px 0 10px rgba(0, 0, 0, 0.3);
             display: flex;
             flex-direction: column;
             padding: 20px 0;
-            transition: left 0.4s ease;
+            transition: all 0.4s ease;
             z-index: 1100;
         }
 
-        .sidebar.open {
-            left: 0;
+        .sidebar.collapsed {
+            width: 70px; /* 收起後的寬度 */
         }
 
         .sidebar nav a {
@@ -214,6 +213,11 @@
             align-items: center;
             font-size: 16px;
             transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap; /* 防止文字換行 */
+        }
+
+        .sidebar.collapsed nav a {
+            justify-content: center; /* 收起時居中顯示圖示 */
         }
 
         .sidebar nav a i {
@@ -221,9 +225,21 @@
             font-size: 18px;
         }
 
+        .sidebar.collapsed nav a i {
+            margin-right: 0; /* 收起時移除圖示間距 */
+        }
+
+        .sidebar.collapsed nav a span {
+            display: none; /* 收起時隱藏文字 */
+        }
+
         .sidebar nav a:hover {
             background-color: #555;
             transform: translateX(10px);
+        }
+
+        .sidebar nav a.active {
+            background-color: #333; /* 當前頁面底色 */
         }
 
         /* 只修改特定的 GIS OF GODS 標題 */
@@ -254,11 +270,13 @@
         <!-- 側邊欄 -->
         <div class="sidebar" id="sidebar">
             <nav>
-                <a href="landscape_management.html"><i class="fas fa-landmark"></i> 宗教地景</a>
-                <a href="deities_management.html"><i class="fas fa-users"></i> 崇敬對象</a>
-                <a href="religion_management.html"><i class="fas fa-book"></i> 宗教類別</a>
-                <a href="county_management.html"><i class="fas fa-map-marked-alt"></i> 縣/市</a>
-                <a href="city_managemaent.html"><i class="fas fa-city"></i> 市/區</a>
+                <a href="landscape_management.html"><i class="fas fa-landmark"></i><span>宗教地景</span></a>
+                <a href="deities_management.html"><i class="fas fa-users"></i><span>崇敬對象</span></a>
+                <a href="religion_management.html"><i class="fas fa-book"></i><span>宗教類別</span></a>
+                <a href="#"><i class="fas fa-sitemap"></i><span>組織型態</span></a>
+                <a href="county_management.html"><i class="fas fa-map-marked-alt"></i><span>縣/市</span></a>
+                <a href="city_managemaent.html"><i class="fas fa-city"></i><span>市/區</span></a>
+                <a href="#"><i class="fas fa-user-shield"></i><span>帳戶管理</span></a>
             </nav>
         </div>
 
@@ -328,12 +346,30 @@
             }
         }
 
-        // 側邊欄切換功能
         const menuIcon = document.getElementById('menu-icon');
         const sidebar = document.getElementById('sidebar');
+        const links = document.querySelectorAll('.sidebar nav a');
 
+        // 頁面載入時還原側邊欄狀態
+        document.addEventListener('DOMContentLoaded', () => {
+            const isCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
+            if (isCollapsed) {
+                sidebar.classList.add('collapsed');
+            }
+        });
+
+        // 切換側邊欄狀態
         menuIcon.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
+            const isCollapsed = sidebar.classList.toggle('collapsed');
+            localStorage.setItem('sidebar-collapsed', isCollapsed);
+        });
+
+        // 高亮當前頁面連結
+        const currentPage = window.location.pathname.split('/').pop();
+        links.forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
         });
     </script>
 </body>

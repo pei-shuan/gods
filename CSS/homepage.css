@@ -1,0 +1,181 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;    
+}
+
+/* 導覽列 */
+.navbar {
+    background-color: #F2D3A4;    
+    z-index: 1000;
+}
+
+/* 導覽列右側 */
+.menu{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+/* 導覽列左側logo */
+.navbar img{
+    padding: 2%;
+    width: 20%;
+}
+
+/* 導覽列超連結 */
+.navbar a {
+    color: black;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: large;
+}
+
+.navbar a.active {
+    font-weight: bold;
+}
+
+/* 側邊欄 */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #F2D3A4;
+    color: black;
+    transition: right 0.3s ease;
+    z-index: 1500;
+    padding-top: 60px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar a {
+    padding: 15px 25px;
+    display: block;
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.sidebar a i {
+    margin-right: 8px;
+}
+
+.sidebar a:hover {
+    background-color: #EEE;
+}
+
+.sidebar .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    padding: 50px 20px 60px;
+    background-color: #FDF8F1;
+}
+
+.query-section {
+    width: 40%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    margin-right: 20px;
+    overflow-y: auto;
+}
+
+.query-section h3 {
+    margin-bottom: 10px;
+}
+
+.query-section select,
+.query-section input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-wrapper input {
+    flex: 1;
+    padding: 10px;
+    padding-right: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-wrapper .fa-search {
+    position: absolute;
+    right: 10px;
+    top: 35%;
+    transform: translateY(-50%);
+    color: #007bff;
+    cursor: pointer;
+}
+
+.data-list {
+    margin-top: 20px;
+}
+
+.data-item {
+    padding: 15px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.data-item:hover {
+    background-color: #ddd;
+}
+
+.go-button {
+    color: #007bff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.pagination {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 10px 15px;
+    text-decoration: none;
+    background-color: #EEA970;
+    color: white;
+    border-radius: 5px;
+}
+
+.pagination a:hover {
+    background-color: #555;
+}
+
+.map-section {
+    width: 60%;
+    height: 100%;
+    background-color: #FDF8F1;
+}

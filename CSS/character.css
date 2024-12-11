@@ -1,0 +1,106 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* 導覽列 */
+.navbar {
+    background-color: #F2D3A4;    
+    z-index: 1000;
+}
+
+/* 導覽列右側(首頁、崇敬對象、問事、管理者) */
+.menu{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+/* 導覽列左側(logo圖示) */
+.navbar img{
+    padding: 2%;
+    width: 20%;
+}
+
+/* 導覽列超連結 */
+.navbar a {
+    color: black;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: large;
+}
+
+.navbar a.active {
+    font-weight: bold;
+}
+
+/* 側邊欄 */
+.sidebar {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #F2D3A4;
+    color: black;
+    transition: right 0.3s ease;
+    z-index: 1500;
+    padding-top: 60px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.sidebar a {
+    padding: 15px 25px;
+    display: block;
+    font-size: 16px;
+    color: black;
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.sidebar a i {
+    margin-right: 8px;
+}
+
+.sidebar a:hover {
+    background-color: #EEE;
+}
+
+.sidebar .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    background-color: #FDF8F1;
+    width: 90%;
+    margin: 0 auto;
+    padding: 2% 0 2% 0;
+}
+
+/* 角色圖片區塊 */
+.character_photo{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 3%;
+}
+
+/* 角色區塊超連結 */
+.character a{
+    text-decoration: none;
+    color: black;
+}
+
+/* 角色介紹區塊 */
+.character_introduce{
+    padding:20px 20px 0 20px
+}

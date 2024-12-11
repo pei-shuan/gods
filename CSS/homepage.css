@@ -12,14 +12,14 @@ body {
     z-index: 1000;
 }
 
-/* 導覽列右側 */
+/* 導覽列右側(首頁、崇敬對象、問事、管理者) */
 .menu{
     display: flex;
     justify-content: end;
     align-items: center;
 }
 
-/* 導覽列左側logo */
+/* 導覽列左側(logo圖示) */
 .navbar img{
     padding: 2%;
     width: 20%;
@@ -81,7 +81,7 @@ body {
     display: flex;
     flex: 1;
     padding: 50px 20px 60px;
-    background-color: #FDF8F1;
+    background-color: #FDF8F1;    
 }
 
 .query-section {

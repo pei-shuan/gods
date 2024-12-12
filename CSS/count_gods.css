@@ -1,0 +1,169 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* 導覽列 */
+.navbar {
+    background: #076585;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #fff, #076585);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #fff, #076585); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+    z-index: 1000;    
+}
+
+/* 導覽列右側(首頁、崇敬對象、問事、管理者) */
+.menu{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+/* 導覽列左側(logo圖示) */
+.navbar img{
+    padding: 2%;
+    width: 20%;
+}
+
+/* 導覽列超連結 */
+.navbar a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: large;
+}
+
+.navbar a.active {
+    font-weight: bold;
+}
+
+/* 主體內容 */
+.content {
+    flex: 1;
+    padding: 20px 60px;
+    display: flex;
+    justify-content: center;
+}
+
+/* 查詢區域 */
+.search-section {
+    width: 97.5%;
+    max-width: 1500px;
+    background-color: white;
+    margin-top: 2.5%;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+/* 標題切換區 */
+.title-switch {
+    display: flex;
+    justify-content: flex-start;
+    /* 將標題移到左邊 */
+    margin-bottom: 20px;
+    margin-top: -10px;
+    /* 調整與頂部距離 */
+}
+
+.title-switch h2 {
+    cursor: pointer;
+    padding: 10px 20px;
+    margin: 0;
+    /* 去掉間距 */
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.title-switch h2.active {
+    border-color: #000;
+    /* 高亮顏色 */
+}
+
+/* 查詢區塊與標題的定位調整 */
+.search-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-wrapper input {
+    flex: 1;
+    padding: 10px;
+    padding-right: 40px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-wrapper .fa-search {
+    
+    
+    color: #0077B6;
+    cursor: pointer;
+}
+
+/* 資料列表 */
+.data-header,
+.data-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+.data-header {
+    font-weight: bold;
+    background-color: #eee;
+}
+
+.data-row:hover {
+    background-color: #ddd;
+}
+
+/* 將欄位內容首字對齊 */
+.data-row div,
+.data-header div {
+    text-align: left;
+    flex: 1;
+}
+
+/* 分頁 */
+.pagination {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 10px 15px;
+    text-decoration: none;
+    background-color: #EEA970;
+    color: white;
+    border-radius: 5px;
+}
+
+.pagination a:hover {
+    background-color: #555;
+}
+
+.pagination a.active {
+    background-color: #555;
+    color: white;
+    font-weight: bold;
+}
+
+/* 搜尋按鈕 */
+button {
+    margin: 5px;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    border: none;
+}

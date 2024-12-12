@@ -46,7 +46,7 @@ body {
     flex-direction: column;
     justify-content: flex-end;
     padding: 20px 50px;
-    background-image: url(../Img/buddha2.jpg);
+    background-image: url(../Img/heart.jpg);
     background-size: cover;  
     background-position: center;  
     position: relative; /* 確保遮罩層相對於這個容器 */

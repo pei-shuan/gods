@@ -42,6 +42,8 @@ body {
 .content {
     display: flex;
     flex: 1;
+    background-size: cover;  
+    background-position: center;  
     padding: 50px 20px 60px;
     background: #076585;  /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #fff, #076585);  /* Chrome 10-25, Safari 5.1-6 */
@@ -53,6 +55,7 @@ body {
 .login{
     background-color: white;
     width: 30%;
+    height: 100%;
     margin: 0 auto;
     border-radius: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);

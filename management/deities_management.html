@@ -312,19 +312,19 @@
                 <a href="landscape_management.html"><i class="fas fa-landmark"></i><span>宗教地景</span></a>
                 <a href="deities_management.html"><i class="fas fa-users"></i><span>崇敬對象</span></a>
                 <a href="religion_management.html"><i class="fas fa-book"></i><span>宗教類別</span></a>
-                <a href="#"><i class="fas fa-sitemap"></i><span>組織型態</span></a>
+                <a href="organization_management.html"><i class="fas fa-sitemap"></i><span>組織型態</span></a>
                 <a href="county_management.html"><i class="fas fa-map-marked-alt"></i><span>縣/市</span></a>
                 <a href="city_managemaent.html"><i class="fas fa-city"></i><span>市/區</span></a>
-                <a href="#"><i class="fas fa-user-shield"></i><span>帳戶管理</span></a>
+                <a href="account_management.html"><i class="fas fa-user-shield"></i><span>帳戶管理</span></a>
             </nav>
         </div>
 
         <div class="main-content">
             <div class="search-bar">
                 <h2>崇敬對象管理</h2>
-                <input type="text" id="deity-name" placeholder="崇敬對象名稱">
+                <input type="text" id="deity-name" placeholder="關鍵字">
                 <button onclick="searchDeities()"><i class="fas fa-search"></i></button>
-                <button class="add-btn" onclick="addDeity()"><i class="fas fa-plus"></i></button>
+                <button class="add-btn" onclick="window.location.href='add_deities_management.html'"><i class="fas fa-plus"></i></button>
             </div>
 
             <table class="data-table">
@@ -340,7 +340,7 @@
                      <tr>
                         <td>1</td>
                         <td>靈安尊王</td>
-                        <td><i class="bi bi-trash-fill"></i>&nbsp;<i class="bi bi-pencil-square"></i></td>
+                        <td><i class="bi bi-trash-fill"></i>&nbsp;<i class="bi bi-pencil-square" onclick="window.location.href='revise_deities_management.html'"></i></td>
                     </tr>
                 </tbody>
             </table>
@@ -377,17 +377,6 @@
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                 body: `action=delete&id=${id}`
-            })
-                .then(() => searchDeities());
-        }
-
-        function addDeity() {
-            const name = prompt('請輸入崇敬對象名稱：');
-            if (!name) return;
-            fetch('deities_management.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=add&name=${encodeURIComponent(name)}`
             })
                 .then(() => searchDeities());
         }

@@ -22,17 +22,14 @@ const towns = {
     "臺東縣": ["台東市", "綠島鄉", "蘭嶼鄉", "延平鄉", "卑南鄉", "鹿野鄉", "關山鎮", "海端鄉", "池上鄉", "東河鄉", "成功鎮", "長濱鄉", "太麻里鄉", "金峰鄉", "大武鄉", "達仁鄉"],
     "金門縣": ["金沙鎮", "金湖鎮", "金寧鄉", "金城鎮", "烈嶼鄉", "烏坵鄉"],
     "澎湖縣": ["馬公市", "西嶼鄉", "望安鄉", "七美鄉", "白沙鄉", "湖西鄉"]
-
     // Continue adding all other towns for each city...
 };
-
 function initMap() {
     const mapCenter = { lat: 23.5, lng: 121 };
     map = new google.maps.Map(document.getElementById("map"), {
         zoom: 8,
         center: mapCenter,
     });
-
     populateCitySelect();
     document.getElementById("citySelect").addEventListener("change", function() {
         populateTownSelect(this.value);
@@ -107,7 +104,6 @@ function populateCitySelect() {
     });
 }
 
-
 function populateTownSelect(city) {
     const townSelect = document.getElementById("townSelect");
     townSelect.disabled = !city;
@@ -121,4 +117,73 @@ function populateTownSelect(city) {
             townSelect.appendChild(option);
         });
     }
+}
+document.getElementById("searchByNameButton").addEventListener("click", () => {
+    const templeName = document.getElementById("templeNameInput").value.trim();
+    if (templeName) {
+        fetchTempleByName(templeName);
+    } else {
+        alert("請輸入地景名稱！");
+    }
+});
+
+function fetchTempleByName(templeName) {
+    const url = new URL('get_temples_by_name.php', window.location.href);
+    url.searchParams.append('temple_name', templeName);
+
+    fetch(url)
+        .then(response => response.json())
+        .then(locations => {
+            if (locations.length === 0) {
+                alert("找不到符合條件的地景！");
+                return;
+            }
+
+            // 清除之前的地標和群集
+            if (markers.length > 0) {
+                markers.forEach(marker => marker.setMap(null));
+                markers = [];
+            }
+            if (mapCluster) {
+                mapCluster.clearMarkers();
+            }
+
+            // 新增地標到地圖
+            markers = locations.map(location => {
+                const marker = new google.maps.Marker({
+                    position: location.position,
+                    title: location.name,
+                    map: map,
+                });
+
+                const infowindow = new google.maps.InfoWindow({
+                    content: `<div><h1>${location.name}</h1><p>地址: ${location.address}</p></div>`,
+                });
+
+                marker.addListener("click", () => {
+                    infowindow.open(map, marker);
+                });
+
+                return marker;
+            });
+
+            // 添加地標群集
+            mapCluster = new markerClusterer.MarkerClusterer({
+                map: map,
+                markers: markers,
+                gridSize: 80,
+                minimumClusterSize: 1,
+                maxZoom: minZoomForMarkers - 1,
+                averageCenter: true,
+                imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m',
+            });
+
+            // 將地圖中心移動到第一個地標
+            if (locations.length > 0) {
+                const firstLocation = locations[0].position;
+                map.setCenter(firstLocation);
+                map.setZoom(12);
+            }
+        })
+        .catch(error => console.error('Error fetching temple data:', error));
 }

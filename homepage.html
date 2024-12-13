@@ -254,30 +254,7 @@
         <select id="townSelect" disabled>
             <option value="">請選擇鄉鎮市區</option>
         </select>
-        <script>
-            document.getElementById("citySelect").addEventListener("change", (event) => {
-    const cityId = event.target.value;
-    populateTownSelect(cityId);
-});
-document.getElementById("citySelect").addEventListener("change", function () {
-    const cityId = this.value;
-    populateTownSelect(cityId);
-    fetchTemples(cityId, 0); // 更新地圖，只篩選 city_id
-});
-document.getElementById("townSelect").addEventListener("change", function () {
-    const countyId = this.value;
-    const cityId = document.getElementById("citySelect").value;
-    fetchTemples(cityId, countyId); // 更新地圖，同時篩選 city_id 和 county_id
-});
-        </script>
-            <label for="category">分類</label>
-            <select id="category">
-                <option value="公園">公園</option>
-                <option value="景點">景點</option>
-                <option value="歷史遺跡">歷史遺跡</option>
-            </select>
-
-
+        
         <button id="searchButton">Search</button>
 
 
@@ -302,7 +279,6 @@ document.getElementById("townSelect").addEventListener("change", function () {
             <script src="data.js"></script>
         </div>
     </div>
-
 
     <script>
         
@@ -366,3 +342,4 @@ document.getElementById("townSelect").addEventListener("change", function () {
 </body>
 
 </html>
+

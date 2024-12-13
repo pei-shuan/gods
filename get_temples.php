@@ -11,7 +11,7 @@ header("Content-Type: application/json");
 $servername = "localhost";
 $username = "root";
 $password = "12345678";
-$dbname = "gis2";
+$dbname = "religiongis";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
@@ -19,23 +19,34 @@ if ($conn->connect_error) {
 }
 
 // Get city and town from request parameters
-$city = isset($_GET['city']) ? $_GET['city'] : '';
-$town = isset($_GET['town']) ? $_GET['town'] : '';
+$city = isset($_GET['city']) ? $conn->real_escape_string($_GET['city']) : '';
+$town = isset($_GET['town']) ? $conn->real_escape_string($_GET['town']) : '';
 
-// Prepare the SQL query with city and town filters
-$sql = "SELECT temple_name, address, city, town, cenx, ceny 
-        FROM temples
-        JOIN coordinates ON temples.temple_id = coordinates.coordinates_id
-        WHERE 1=1";
+// Prepare the base SQL query
+$sql = "SELECT
+        rel_location.name AS temple_name,
+        rel_location.addr AS address,
+        county.name AS city,
+        city.name AS town,
+        ST_Y(rel_location.location) AS cenx,
+        ST_X(rel_location.location) AS ceny
+    FROM
+        rel_location
+    JOIN
+        city ON rel_location.city_id = city.ID
+    JOIN
+        county ON city.county_id = county.ID";
 
-// Add conditions based on city and town
-if (!empty($city)) {
-    $sql .= " AND city = '" . $conn->real_escape_string($city) . "'";
+// Add conditions based on provided parameters
+if (!empty($city) && !empty($town)) {
+    // Both city and town are selected
+    $sql .= " WHERE county.name = '$city' AND city.name = '$town'";
+} elseif (!empty($city)) {
+    // Only city is selected
+    $sql .= " WHERE county.name = '$city'";
 }
-if (!empty($town)) {
-    $sql .= " AND town = '" . $conn->real_escape_string($town) . "'";
-}
 
+// Execute the query
 $result = $conn->query($sql);
 $temples = array();
 
@@ -54,7 +65,7 @@ if ($result && $result->num_rows > 0) {
     }
 }
 
+// Return the results as JSON
 echo json_encode($temples);
 
 $conn->close();
-?>

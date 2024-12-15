@@ -89,84 +89,86 @@
             </div>
             <div id="temple-data-list"></div>
 
-            <!-- 廟宇分頁 -->
-            <div class="pagination" id="temple-pagination"></div>
+                <!-- 廟宇分頁 -->
+                <div class="pagination" id="temple-pagination"></div>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
+    <script>
 
-    // 監聽頁面載入事件，為內容加上 fade-in 類
-    document.addEventListener("DOMContentLoaded", function () {
-        const content = document.querySelector(".content");
-        content.classList.add("fade-in");
+        // 監聽頁面載入事件，為內容加上 fade-in 類
+        document.addEventListener("DOMContentLoaded", function () {
+            const content = document.querySelector(".content");
+            content.classList.add("fade-in");
 
-        // 清除動畫類別，以便下一次重新播放
-        content.addEventListener("animationend", () => {
-            content.classList.remove("fade-in");
+            // 清除動畫類別，以便下一次重新播放
+            content.addEventListener("animationend", () => {
+                content.classList.remove("fade-in");
+            });
         });
-    });
 
-    let currentPage = 1;
-    const itemsPerPage = 8;
+        let currentPage = 1;
+        const itemsPerPage = 8;
 
-    // 切換顯示的區塊
-    document.getElementById('worship-title').addEventListener('click', () => {
-        document.getElementById('worship-section').style.display = 'block';
-        document.getElementById('temple-section').style.display = 'none';
-        document.getElementById('worship-title').classList.add('active');
-        document.getElementById('temple-title').classList.remove('active');
-        fetchWorshipData(currentPage);
-    });
+        // 切換顯示的區塊
+        document.getElementById('worship-title').addEventListener('click', () => {
+            document.getElementById('worship-section').style.display = 'block';
+            document.getElementById('temple-section').style.display = 'none';
+            document.getElementById('worship-title').classList.add('active');
+            document.getElementById('temple-title').classList.remove('active');
+            fetchWorshipData(currentPage);
+        });
 
-    document.getElementById('temple-title').addEventListener('click', () => {
-        document.getElementById('worship-section').style.display = 'none';
-        document.getElementById('temple-section').style.display = 'block';
-        document.getElementById('temple-title').classList.add('active');
-        document.getElementById('worship-title').classList.remove('active');
-        fetchTempleData(currentPage);
-    });
+        document.getElementById('temple-title').addEventListener('click', () => {
+            document.getElementById('worship-section').style.display = 'none';
+            document.getElementById('temple-section').style.display = 'block';
+            document.getElementById('temple-title').classList.add('active');
+            document.getElementById('worship-title').classList.remove('active');
+            fetchTempleData(currentPage);
+        });
 
-    // 查詢崇敬對象資料
-    function searchWorshipData() {
-        const keyword = document.getElementById('searchKeyword').value;
-        fetchWorshipData(1, keyword); // 重置到第1頁
+        // 查詢崇敬對象資料
+        function searchWorshipData() {
+            const keyword = document.getElementById('searchKeyword').value;
+            fetchWorshipData(1, keyword); // 重置到第1頁
+        }
+
+        // 查詢廟宇資料
+        function searchTempleData() {
+        const keyword = document.getElementById('templeKeyword').value.trim(); // 獲取輸入的搜尋關鍵字
+        currentPage = 1; // 重置到第一頁
+        fetchTempleData(currentPage, keyword); // 傳遞關鍵字到後端
     }
 
-    // 查詢廟宇資料
-    function searchTempleData() {
-    const keyword = document.getElementById('templeKeyword').value.trim(); // 獲取輸入的搜尋關鍵字
-    currentPage = 1; // 重置到第一頁
-    fetchTempleData(currentPage, keyword); // 傳遞關鍵字到後端
-}
-
-function fetchTempleData(page, keyword = "") {
-    fetch(`getTempleData.php?keyword=${encodeURIComponent(keyword)}`)
-        .then(response => response.json())
-        .then(data => {
-            displayTempleData(data, page);
-            setupPagination(data.length, 'temple-pagination', data, displayTempleData);
-        })
-        .catch(error => console.error('Error fetching temple data:', error));
-}
-
-    // 從資料庫抓取崇敬對象資料
-    function fetchWorshipData(page, keyword = '') {
-        fetch(`getWorshipData.php?keyword=${encodeURIComponent(keyword)}`)
+    function fetchTempleData(page, keyword = "") {
+        fetch(`getTempleData.php?keyword=${encodeURIComponent(keyword)}`)
             .then(response => response.json())
             .then(data => {
-                displayWorshipData(data, page);
-                setupPagination(data.length, 'worship-pagination', data, displayWorshipData);
+                displayTempleData(data, page);
+                setupPagination(data.length, 'temple-pagination', data, displayTempleData);
             })
-            .catch(error => console.error('Error fetching worship data:', error));
+            .catch(error => console.error('Error fetching temple data:', error));
     }
 
-    // 顯示崇敬對象的資料
-    function displayWorshipData(data, page) {
-        const dataList = document.getElementById('worship-data-list');
-        dataList.innerHTML = '';
+        // 從資料庫抓取崇敬對象資料
+        function fetchWorshipData(page, keyword = '') {
+            fetch(`getWorshipData.php?keyword=${encodeURIComponent(keyword)}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayWorshipData(data, page);
+                    setupPagination(data.length, 'worship-pagination', data, displayWorshipData);
+                })
+                .catch(error => console.error('Error fetching worship data:', error));
+        }
 
-        // 計算顯示資料的範圍
-        const start = (page - 1) * itemsPerPage;
-        const end = start + itemsPerPage;}
+        // 顯示崇敬對象的資料
+        function displayWorshipData(data, page) {
+            const dataList = document.getElementById('worship-data-list');
+            dataList.innerHTML = '';
+
+            // 計算顯示資料的範圍
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;}
+    </script>
+</body>

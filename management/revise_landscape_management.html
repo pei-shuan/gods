@@ -198,6 +198,22 @@
             margin-right: 20px; /* 增加圖片與文字之間的間距 */
         }
 
+        /* Fade In Animation */
+        .fade-in {
+            opacity: 0;
+            animation: fadeInAnimation 2s forwards;
+        }
+
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+        
     </style>
 </head>
 
@@ -312,6 +328,18 @@
     </div>
 
     <script>
+
+        // 監聽頁面載入事件，為內容加上 fade-in 類
+        document.addEventListener("DOMContentLoaded", function () {
+            const content = document.querySelector(".content");
+            content.classList.add("fade-in");
+
+            // 清除動畫類別，以便下一次重新播放
+            content.addEventListener("animationend", () => {
+                content.classList.remove("fade-in");
+            });
+        });
+
         function saveData() {
             const formData = new FormData(document.getElementById('landscapeForm'));
             const isValid = Array.from(formData.values()).some(value => value.trim() !== '');

@@ -14,6 +14,12 @@ body {
     z-index: 1000;    
 }
 
+/* 滑鼠懸停效果 */
+.navbar a:hover {
+    color: #7cb6ec; /* 改變顏色 */
+    transform: scale(1.1); /* 略微放大文字 */
+  }
+
 /* 導覽列右側(首頁、崇敬對象、問事、管理者) */
 .menu{
     display: flex;
@@ -35,6 +41,12 @@ body {
     font-size: large;
 }
 
+/* 滑鼠懸停效果 */
+.navbar a:hover {
+    color: #7cb6ec; /* 改變顏色 */
+    transform: scale(1.1); /* 略微放大文字 */
+  }
+
 .navbar a.active {
     font-weight: bold;
 }
@@ -50,7 +62,7 @@ body {
     background-size: cover;  
     background-position: center;  
     position: relative; /* 確保遮罩層相對於這個容器 */
-    filter: brightness(1.6);
+    filter: brightness(1.2);
 }
 
 .content::before {  
@@ -60,7 +72,7 @@ body {
     left: 0;  
     right: 0;  
     bottom: 0;  
-    background-color: rgba(0, 0, 0, 0.6); /* 黑色半透明遮罩 */  
+    background-color: rgba(0, 0, 0, 0.66); /* 黑色半透明遮罩 */  
     z-index: 1; /* 確保在背景圖片上方 */  
 }
 

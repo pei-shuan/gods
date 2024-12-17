@@ -271,8 +271,20 @@
 
 
             <!-- 加入 async 和 defer 屬性來確保 Google Maps API 正確載入後觸發 initMap() -->
-            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeM6daogKnCdOP9aNvIksp0eiv_vCYswI&callback=initMap"></script>
-            <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+            <script>
+                // 從後端獲取 API Key，並動態載入 Google Maps API
+                fetch('get_api_key.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        const script = document.createElement('script');
+                        script.src = `https://maps.googleapis.com/maps/api/js?key=${data.apiKey}&callback=initMap`;
+                        script.async = true;
+                        script.defer = true;
+                        document.head.appendChild(script);
+                    })
+                    .catch(error => console.error('Error fetching API key:', error));
+            </script>
+            <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>            
             <!-- 載入自訂 JavaScript -->
             <script src="data.js"></script>
         </div>

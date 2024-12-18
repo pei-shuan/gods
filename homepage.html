@@ -85,6 +85,7 @@
             <option value="">請選擇鄉鎮市區</option>
         </select>
 
+
         <script>
             // 監聽頁面載入事件，為內容加上 fade-in 類
         document.addEventListener("DOMContentLoaded", function () {
@@ -123,37 +124,56 @@ document.getElementById("townSelect").addEventListener("change", function () {
         <button id="searchButton">Search</button>
 
         <br><br>
+
+       
+        <button id="searchButton">Search</button>
             <h3>地景名稱</h3>
             <div class="search-wrapper">
-                <input type="text" placeholder="輸入地景名稱...">
-                <i id="search-icon" class="fas fa-search"></i>
+                <input type="text" id="templeNameInput" placeholder="輸入地景名稱...">
+                <button id="searchByNameButton" class="fas">查詢</button>
             </div>
-
-            <div class="data-list" id="data-list"></div>
-
+         <div class="data-list" id="data-list"></div>
             <div class="pagination" id="pagination"></div>
         </div>
+
 
         <div class="map-section">
             <div id="map" style="width: 100%; height: 100%;"></div>
 
+
             <!-- 加入 async 和 defer 屬性來確保 Google Maps API 正確載入後觸發 initMap() -->
-            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeM6daogKnCdOP9aNvIksp0eiv_vCYswI&callback=initMap"></script>
-            <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>
+            <script>
+                // 從後端獲取 API Key，並動態載入 Google Maps API
+                fetch('get_api_key.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        const script = document.createElement('script');
+                        script.src = `https://maps.googleapis.com/maps/api/js?key=${data.apiKey}&callback=initMap`;
+                        script.async = true;
+                        script.defer = true;
+                        document.head.appendChild(script);
+                    })
+                    .catch(error => console.error('Error fetching API key:', error));
+            </script>
+            <script src="https://unpkg.com/@googlemaps/markerclusterer/dist/index.min.js"></script>            
             <!-- 載入自訂 JavaScript -->
             <script src="data.js"></script>
         </div>
     </div>
-
-
     <script>
-        
+       
         const sidebar = document.getElementById("sidebar");
         
         const closeBtn = document.getElementById("close-btn");
 
-       
-      
+        menuIcon.addEventListener("click", () => {
+            sidebar.style.right = "0"; // 顯示側邊欄
+        });
+
+        closeBtn.addEventListener("click", () => {
+            sidebar.style.right = "-250px"; // 隱藏側邊欄
+        });
+
         const data = [
             '資料 1', '資料 2', '資料 3', '資料 4', '資料 5',
             '資料 6', '資料 7', '資料 8', '資料 9', '資料 10',
@@ -181,6 +201,7 @@ document.getElementById("townSelect").addEventListener("change", function () {
             });
         }
 
+
         function displayPagination() {
             const pagination = document.getElementById('pagination');
             pagination.innerHTML = '';
@@ -200,5 +221,4 @@ document.getElementById("townSelect").addEventListener("change", function () {
         displayPagination();
     </script>
 </body>
-
 </html>

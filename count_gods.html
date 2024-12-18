@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>崇敬對象</title>
+    <!-- FontAwesome CDN for search icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="CSS/count_gods.css">
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        /* Fade In Animation */
+        .fade-in {
+            opacity: 0;
+            animation: fadeInAnimation 2s forwards;
+        }
+
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="navbar">  
+        <div class="container-fluid d-flex align-items-center">  
+            <div class="col-3 d-flex align-items-center">  
+                <a href="homepage.html"><img src="Img/new_logo.png" alt="Logo" class="logo"></a>  
+            </div>  
+            <nav class="menu col-9 text-right">  
+                <a href="homepage.html">首頁</a>  
+                <a href="count_gods.html" class="active">崇敬對象</a>  
+                <a href="character.html">問事</a>  
+                <a href="login.html">管理者</a>  
+            </nav>  
+        </div>  
+    </div> 
+
+    <!-- 主要內容 -->
+    <div class="content">
+    <!-- 查詢區塊內的標題切換 -->
+    <div class="search-section">
+        <div class="title-switch">
+            <h2 id="worship-title" class="active">崇敬對象</h2>
+            <h2 id="temple-title">廟宇查詢</h2>
+        </div>
+
+        <!-- 崇敬對象查詢區塊 -->
+        <div class="search-section" id="worship-section">
+            <div class="search-wrapper">
+                <input type="text" id="searchKeyword" placeholder="名稱搜尋">
+                <button onclick="searchWorshipData()"><i class="fas fa-search"></i></button>
+            </div>
+
+            <!-- 崇敬對象資料列表 -->
+            <div class="data-header">
+                <div>編號</div>
+                <div>名稱</div>
+                <div>其他資料</div>
+            </div>
+            <div id="worship-data-list"></div>
+
+            <!-- 崇敬對象分頁 -->
+            <div class="pagination" id="worship-pagination"></div>
+        </div>
+
+        <!-- 廟宇查詢區塊 -->
+        <div class="search-section" id="temple-section" style="display: none;">
+            <div class="search-wrapper">
+                <input type="text" id="templeKeyword" placeholder="廟宇名稱搜尋">
+                <button onclick="searchTempleData()"><i class="fas fa-search"></i></button>
+            </div>
+
+            <!-- 廟宇資料列表 -->
+            <div class="data-header">
+                <div>廟宇名稱</div>
+                <div>地區</div>
+                <div>建築年份</div>
+            </div>
+            <div id="temple-data-list"></div>
+
+                <!-- 廟宇分頁 -->
+                <div class="pagination" id="temple-pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        // 監聽頁面載入事件，為內容加上 fade-in 類
+        document.addEventListener("DOMContentLoaded", function () {
+            const content = document.querySelector(".content");
+            content.classList.add("fade-in");
+
+            // 清除動畫類別，以便下一次重新播放
+            content.addEventListener("animationend", () => {
+                content.classList.remove("fade-in");
+            });
+        });
+
+        let currentPage = 1;
+        const itemsPerPage = 8;
+
+        // 切換顯示的區塊
+        document.getElementById('worship-title').addEventListener('click', () => {
+            document.getElementById('worship-section').style.display = 'block';
+            document.getElementById('temple-section').style.display = 'none';
+            document.getElementById('worship-title').classList.add('active');
+            document.getElementById('temple-title').classList.remove('active');
+            fetchWorshipData(currentPage);
+        });
+
+        document.getElementById('temple-title').addEventListener('click', () => {
+            document.getElementById('worship-section').style.display = 'none';
+            document.getElementById('temple-section').style.display = 'block';
+            document.getElementById('temple-title').classList.add('active');
+            document.getElementById('worship-title').classList.remove('active');
+            fetchTempleData(currentPage);
+        });
+
+        // 查詢崇敬對象資料
+        function searchWorshipData() {
+            const keyword = document.getElementById('searchKeyword').value;
+            fetchWorshipData(1, keyword); // 重置到第1頁
+        }
+
+        // 查詢廟宇資料
+        function searchTempleData() {
+        const keyword = document.getElementById('templeKeyword').value.trim(); // 獲取輸入的搜尋關鍵字
+        currentPage = 1; // 重置到第一頁
+        fetchTempleData(currentPage, keyword); // 傳遞關鍵字到後端
+    }
+
+    function fetchTempleData(page, keyword = "") {
+        fetch(`getTempleData.php?keyword=${encodeURIComponent(keyword)}`)
+            .then(response => response.json())
+            .then(data => {
+                displayTempleData(data, page);
+                setupPagination(data.length, 'temple-pagination', data, displayTempleData);
+            })
+            .catch(error => console.error('Error fetching temple data:', error));
+    }
+
+        // 從資料庫抓取崇敬對象資料
+        function fetchWorshipData(page, keyword = '') {
+            fetch(`getWorshipData.php?keyword=${encodeURIComponent(keyword)}`)
+                .then(response => response.json())
+                .then(data => {
+                    displayWorshipData(data, page);
+                    setupPagination(data.length, 'worship-pagination', data, displayWorshipData);
+                })
+                .catch(error => console.error('Error fetching worship data:', error));
+        }
+
+        // 顯示崇敬對象的資料
+        function displayWorshipData(data, page) {
+            const dataList = document.getElementById('worship-data-list');
+            dataList.innerHTML = '';
+
+            // 計算顯示資料的範圍
+            const start = (page - 1) * itemsPerPage;
+            const end = start + itemsPerPage;}
+    </script>
+</body>

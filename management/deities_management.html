@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- 引入 Google 字體 Dancing Script -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <style>
         /* 全局樣式 */
         body {
@@ -20,18 +22,22 @@
 
         /* 導覽列樣式 */
         .navbar {
-            background-color: black;
+            background: #24C6DC;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to left, #514A9D, #24C6DC);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to left, #514A9D, #24C6DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+
+
             padding: 10px 20px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            
             color: white;
-            position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 1000;
-            height: 30px; /* 導覽列的固定高度 */
+            
         }
 
         .navbar a {
@@ -39,6 +45,7 @@
             text-decoration: none;
             margin: 0 0px;
             font-weight: normal;
+            height: 100%;
         }
 
         .navbar a:hover {
@@ -50,7 +57,7 @@
         }
 
         .menu-icon {
-            margin-right: -1220px;/*icon跟logo的間距*/
+            
             font-size: 18px;/*側邊欄icon大小*/
             color: white;
             cursor: pointer;
@@ -73,6 +80,8 @@
             display: flex;
             min-height: calc(100vh - 60px); /* 設置內容區的最小高度，確保不被導覽列遮擋 */
             margin-top: 55px; /* 確保內容不被固定的導覽列遮住 */
+            
+            margin: 0 auto;
         }
 
         .main-content {
@@ -135,7 +144,7 @@
         .data-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 0px;
+            margin-top: 10px;
         }
 
         /* 默認樣式 */
@@ -151,20 +160,20 @@
         }
 
         /* 狀態獨立間距 */
-        .data-table .column-id {
-            padding-left: 20px; /* ID 欄的左間距 */
-            padding-right: 10px; /* ID 欄的右間距 */
+        /* .data-table .column-id {
+            padding-left: 20px;  ID 欄的左間距 
+            padding-right: 10px; ID 欄的右間距 
         }
 
         .data-table .column-name {
-            padding-left: 50px; /* 崇敬對象欄的左間距 */
-            padding-right: 100px; /* 崇敬對象欄的右間距 */
+            padding-left: 50px;  崇敬對象欄的左間距 
+            padding-right: 100px; 崇敬對象欄的右間距
         }
 
         .data-table .column-action {
-            padding-left: 0px; /* 操作欄的左間距 */
-            padding-right: 0px; /* 操作欄的右間距 */
-        }
+            padding-left: 0px; 操作欄的左間距 
+            padding-right: 0px; 操作欄的右間距
+        } */
 
         .data-table tr:hover {
             background-color: #f9f9f9;
@@ -187,22 +196,21 @@
 
         /* 側邊欄新樣式 */
         .sidebar {
-            position: fixed;
-            top: 50px; /* 側邊欄的起始位置要從導覽列下方開始 */
-            left: -250px;
+            
+            top: 50px;
+            left: 0;
             width: 250px;
-            height: calc(100vh - 60px); /* 側邊欄的高度等於視窗高度減去導覽列高度 */
-            background-color: black;
-            box-shadow: 5px 0 10px rgba(0, 0, 0, 0.3);
+            height: calc(100vh - 60px);
+            background-color: #24C6DC;
             display: flex;
             flex-direction: column;
             padding: 20px 0;
-            transition: left 0.4s ease;
+            transition: all 0.4s ease;
             z-index: 1100;
         }
 
-        .sidebar.open {
-            left: 0;
+        .sidebar.collapsed {
+            width: 70px; /* 收起後的寬度 */
         }
 
         .sidebar nav a {
@@ -213,6 +221,11 @@
             align-items: center;
             font-size: 16px;
             transition: background-color 0.3s ease, transform 0.3s ease;
+            white-space: nowrap; /* 防止文字換行 */
+        }
+
+        .sidebar.collapsed nav a {
+            justify-content: center; /* 收起時居中顯示圖示 */
         }
 
         .sidebar nav a i {
@@ -220,9 +233,21 @@
             font-size: 18px;
         }
 
+        .sidebar.collapsed nav a i {
+            margin-right: 0; /* 收起時移除圖示間距 */
+        }
+
+        .sidebar.collapsed nav a span {
+            display: none; /* 收起時隱藏文字 */
+        }
+
         .sidebar nav a:hover {
-            background-color: #555;
+            background-color: #1c9eb0;
             transform: translateX(10px);
+        }
+
+        .sidebar nav a.active {
+            background-color: #12636e; /* 當前頁面底色 */
         }
 
         /* 只修改特定的 GIS OF GODS 標題 */
@@ -230,6 +255,38 @@
             font-family: 'Dancing Script', cursive; /* 使用 Dancing Script 字體 */
             font-size: 28px;
             color: white; /* 設置字體顏色為番茄紅 */
+            margin: 0;
+        }
+
+        .logo_container {
+            display: flex; /* 讓圖片和文字在同一行顯示 */
+            align-items: center; /* 垂直置中圖片和文字 */
+            text-decoration: none !important; /* 去掉<a>標籤的下劃線 */
+        }
+
+        .logo-img {
+            margin-right: 20px; /* 增加圖片與文字之間的間距 */
+        }
+
+        /* 操作圖示 */
+        i{
+            cursor: pointer;
+        }
+
+        /* Fade In Animation */
+        .fade-in {
+            opacity: 0;
+            animation: fadeInAnimation 2s forwards;
+        }
+
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 1;
+            }
         }
 
     </style>
@@ -237,13 +294,28 @@
 
 <body>
     <!-- 導覽列 -->
+    
     <div class="navbar">
-        <i class="fas fa-bars menu-icon" id="menu-icon"></i>
-        <a href="landscape_management.html">
-            <h2 class="gis-title">GIS OF GODS</h2> <!-- 顯示文字 -->
-        </a>
-        <div class="menu">
-            <a href="manager_login.html"><i class="fas fa-user-cog"></i> 登出</a>
+
+        <div class="row container-fluid">
+            <div class="col-1">
+                <i class="fas fa-bars menu-icon" id="menu-icon"></i>
+            </div>
+
+            <div class="col-3">
+                <a href="landscape_management.html" class="logo_container">            
+                    <img src="../Img/new_logo.png" style="width: 15%;" class="logo-img">
+                    <h2 class="gis-title">管理平台</h2> <!-- 顯示文字 -->
+                </a>
+            </div>
+
+            <div class="col-7"></div>
+
+            <div class="col-1">
+                <div class="menu">
+                    <a href="../login.html"><i class="fas fa-user-cog"></i> 登出</a>
+               </div>
+            </div>
         </div>
     </div>
 
@@ -253,20 +325,22 @@
         <!-- 側邊欄 -->
         <div class="sidebar" id="sidebar">
             <nav>
-                <a href="landscape_management.html"><i class="fas fa-landmark"></i> 宗教地景</a>
-                <a href="deities_management.html"><i class="fas fa-users"></i> 崇敬對象</a>
-                <a href="religion_management.html"><i class="fas fa-book"></i> 宗教類別</a>
-                <a href="county_management.html"><i class="fas fa-map-marked-alt"></i> 縣/市</a>
-                <a href="city_managemaent.html"><i class="fas fa-city"></i> 市/區</a>
+                <a href="landscape_management.html"><i class="fas fa-landmark"></i><span>宗教地景</span></a>
+                <a href="deities_management.html"><i class="fas fa-users"></i><span>崇敬對象</span></a>
+                <a href="religion_management.html"><i class="fas fa-book"></i><span>宗教類別</span></a>
+                <a href="organization_management.html"><i class="fas fa-sitemap"></i><span>組織型態</span></a>
+                <a href="county_management.html"><i class="fas fa-map-marked-alt"></i><span>縣/市</span></a>
+                <a href="city_managemaent.html"><i class="fas fa-city"></i><span>市/區</span></a>
+                <a href="account_management.html"><i class="fas fa-user-shield"></i><span>帳戶管理</span></a>
             </nav>
         </div>
 
         <div class="main-content">
             <div class="search-bar">
                 <h2>崇敬對象管理</h2>
-                <input type="text" id="deity-name" placeholder="崇敬對象名稱">
+                <input type="text" id="deity-name" placeholder="關鍵字">
                 <button onclick="searchDeities()"><i class="fas fa-search"></i></button>
-                <button class="add-btn" onclick="addDeity()"><i class="fas fa-plus"></i></button>
+                <button class="add-btn" onclick="window.location.href='add_deities_management.html'"><i class="fas fa-plus"></i></button>
             </div>
 
             <table class="data-table">
@@ -279,12 +353,29 @@
                 </thead>
                 <tbody id="deity-data">
                     <!-- 動態生成內容 -->
+                     <tr>
+                        <td>1</td>
+                        <td>靈安尊王</td>
+                        <td><i class="bi bi-trash-fill"></i>&nbsp;<i class="bi bi-pencil-square" onclick="window.location.href='revise_deities_management.html'"></i></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
     </div>
 
     <script>
+
+        // 監聽頁面載入事件，為內容加上 fade-in 類
+        document.addEventListener("DOMContentLoaded", function () {
+            const content = document.querySelector(".content");
+            content.classList.add("fade-in");
+
+            // 清除動畫類別，以便下一次重新播放
+            content.addEventListener("animationend", () => {
+                content.classList.remove("fade-in");
+            });
+        });
+        
         function searchDeities() {
             const name = document.getElementById('deity-name').value;
             fetch('deities_management.php', {
@@ -318,25 +409,31 @@
                 .then(() => searchDeities());
         }
 
-        function addDeity() {
-            const name = prompt('請輸入崇敬對象名稱：');
-            if (!name) return;
-            fetch('deities_management.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: `action=add&name=${encodeURIComponent(name)}`
-            })
-                .then(() => searchDeities());
-        }
-
-        // 側邊欄切換功能
         const menuIcon = document.getElementById('menu-icon');
         const sidebar = document.getElementById('sidebar');
+        const links = document.querySelectorAll('.sidebar nav a');
 
-        menuIcon.addEventListener('click', () => {
-            sidebar.classList.toggle('open');
+        // 頁面載入時還原側邊欄狀態
+        document.addEventListener('DOMContentLoaded', () => {
+            const isCollapsed = localStorage.getItem('sidebar-collapsed') === 'true';
+            if (isCollapsed) {
+                sidebar.classList.add('collapsed');
+            }
         });
 
+        // 切換側邊欄狀態
+        menuIcon.addEventListener('click', () => {
+            const isCollapsed = sidebar.classList.toggle('collapsed');
+            localStorage.setItem('sidebar-collapsed', isCollapsed);
+        });
+
+        // 高亮當前頁面連結
+        const currentPage = window.location.pathname.split('/').pop();
+        links.forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
     </script>
 </body>
 

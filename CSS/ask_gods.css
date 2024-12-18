@@ -1,0 +1,101 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* 導覽列 */
+.navbar {
+    background: #076585;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #fff, #076585);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #fff, #076585); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+    z-index: 1000;    
+}
+
+/* 滑鼠懸停效果 */
+.navbar a:hover {
+    color: #7cb6ec; /* 改變顏色 */
+    transform: scale(1.1); /* 略微放大文字 */
+  }
+
+/* 導覽列右側(首頁、崇敬對象、問事、管理者) */
+.menu{
+    display: flex;
+    justify-content: end;
+    align-items: center;    
+}
+
+/* 導覽列左側(logo圖示) */
+.navbar img{
+    padding: 2%;
+    width: 20%;
+}
+
+/* 導覽列超連結 */
+.navbar a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: large;
+}
+
+.navbar a.active {
+    font-weight: bold;
+}
+
+/* 主體內容 */
+.content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 70px 20px 60px;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* 中央媽祖區域 */
+.ma-zu-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.ma-zu-section img {
+    width: 150px;
+    height: auto;
+}
+
+/* 查詢區域 */
+.query-section {
+    width: 40%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.query-section input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.query-section .fa-paper-plane {
+    margin-left: 10px;
+    font-size: 20px;
+    color: #007bff;
+    cursor: pointer;
+}
+
+/* 淡出動畫效果 */
+.fade-out {
+    opacity: 0;
+}

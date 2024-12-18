@@ -1,0 +1,156 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* 導覽列 */
+.navbar {
+    background: #076585;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #fff, #076585);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #fff, #076585); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+    z-index: 1000;    
+}
+
+/* 滑鼠懸停效果 */
+.navbar a:hover {
+    color: #7cb6ec; /* 改變顏色 */
+    transform: scale(1.1); /* 略微放大文字 */
+  }
+
+/* 導覽列右側(首頁、崇敬對象、問事、管理者) */
+.menu{
+    display: flex;
+    justify-content: end;
+    align-items: center;    
+}
+
+/* 導覽列左側(logo圖示) */
+.navbar img{
+    padding: 2%;
+    width: 20%;
+}
+
+/* 導覽列超連結 */
+.navbar a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: large;
+}
+
+/* 滑鼠懸停效果 */
+.navbar a:hover {
+    color: #7cb6ec; /* 改變顏色 */
+    transform: scale(1.1); /* 略微放大文字 */
+  }
+
+.navbar a.active {
+    font-weight: bold;
+}
+
+
+.content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 20px 50px;
+    background-image: url(../Img/jesus.jpg);
+    background-size: cover;  
+    background-position: center;  
+    position: relative; /* 確保遮罩層相對於這個容器 */
+    filter: brightness(1.2);
+}
+
+.content::before {  
+    content: '';  
+    position: absolute;  
+    top: 0;  
+    left: 0;  
+    right: 0;  
+    bottom: 0;  
+    background-color: rgba(0, 0, 0, 0.66); /* 黑色半透明遮罩 */  
+    z-index: 1; /* 確保在背景圖片上方 */  
+}
+
+.query-section,  
+.chat-window {  
+    position: relative;  
+    z-index: 2; /* 確保內容在遮罩之上 */  
+} 
+.chat-window {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 10px;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.chat-message {
+    display: flex;
+    align-items: flex-end;
+    margin-bottom: 15px;
+}
+
+.chat-message.mazu {
+    justify-content: flex-start;
+}
+
+.chat-message.user {
+    justify-content: flex-end;
+}
+
+.chat-message img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.chat-message.user img {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.message-bubble {
+    max-width: 60%;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #CAF0F8;
+    color: black;
+    font-size: 14px;
+}
+
+.chat-message.user .message-bubble {
+    background-color: #CAF0F8;    
+}
+
+.query-section {
+    width: 50%;
+    margin: 0 auto;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.query-section input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #999797;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.query-section .bi-send-fill {
+    margin-left: 10px;
+    font-size: 20px;
+    color: #076585;
+    cursor: pointer;
+}

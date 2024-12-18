@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>市/區管理</title>
+    <title>地景資料管理</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- 引入 Google 字體 Dancing Script -->
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
@@ -58,6 +58,7 @@
 
         .menu-icon {
             
+             
             color: white;
             cursor: pointer;
         }
@@ -83,6 +84,7 @@
         }
 
         .main-content {
+            
             flex: 1;
             padding: 20px;
             background-color: #fff;
@@ -93,9 +95,11 @@
 
         .search-bar {
             display: flex;
+            gap: 10px; /* 控制select和input之間的間距 */
+            justify-content: flex-start; /* 分配空間 */
             align-items: center; /* 垂直對齊 */
-            gap: 10px;
-            margin-bottom: 0px;
+            margin-bottom: 0px; /* 讓搜尋區域與下面的表格有間距 */
+            position: relative; /* 確保加號按鈕可以絕對定位 */
         }
 
         .search-bar select,
@@ -120,20 +124,17 @@
         .search-bar button:hover {
             background-color: #555;
         }
-        
-        /* 調整搜尋按鈕與加號按鈕之間的間距 */
+
+        /* 新增加號按鈕 */
         .add-btn {
             background-color: #28a745;
             color: white;
             cursor: pointer;
             font-size: 14px; /* 確保與搜尋按鈕的字型大小一致 */
-            display: flex;
-            align-items: center;
-            justify-content: center;
             padding: 10px 15px; /* 確保加號按鈕的大小與搜尋按鈕一致 */
             border-radius: 4px;
             border: 1px solid #ccc; /* 確保有外框 */
-            margin-left: auto; /* 使加號按鈕位於右側 */
+            margin-left: auto; /* 調整間距，使它不會與搜尋框重疊 */
         }
 
         .add-btn:hover {
@@ -282,6 +283,7 @@
                 opacity: 1;
             }
         }
+
     </style>
 </head>
 
@@ -314,7 +316,7 @@
 
     <!-- 主內容區 -->
     <div class="content">
-
+        
         <!-- 側邊欄 -->
         <div class="sidebar" id="sidebar">
             <nav>
@@ -328,27 +330,33 @@
             </nav>
         </div>
 
-        <div class="main-content">
-            <div class="search-bar">     
-                <h2>市/區管理</h2>        
-                <button class="add-btn" id="add-btn"><i class="fas fa-plus"></i></button>
+
+        <div class="main-content" id="main-content">
+            <div class="search-bar">
+                <h2>帳戶管理</h2>
+                <input type="text" id="landscape_name" placeholder="帳號/關鍵字">
+                <select id="country" onchange="loadCities()">
+                    <option value="">使用權限篩選</option>
+                </select>
+                
+                <button onclick="searchLandscapes()"><i class="fas fa-search"></i></button>
+                <!-- 新增加號按鈕 -->
+                <button class="add-btn" onclick="window.location.href='add_account_management.html'"><i class="fas fa-plus"></i></button>
             </div>
 
             <table class="data-table">
                 <thead>
                     <tr>
                         <th class="column-id">ID</th>
-                        <th class="column-name">市/區</th>
-                        <th class="column-action">操作</th>
+                        <th class="column-namber">帳號</th>
+                        <th class="column-name">姓名</th>
+                        <th class="column-Permissions">權限</th>
+                        <th class="column-state">狀態</th>
+                        <th class="column-remark">備註</th>
                     </tr>
                 </thead>
-                <tbody id="religion-data">
-                    <!-- 動態生成內容 -->
-                     <tr>
-                        <td>1</td>
-                        <td>信義區</td>
-                        <td><i class="bi bi-trash-fill"></i>&nbsp;<i class="bi bi-pencil-square"></i></td>
-                    </tr>
+                <tbody id="landscape-data">
+                    <!-- 資料將由 JavaScript 動態載入 -->
                 </tbody>
             </table>
         </div>
@@ -366,49 +374,84 @@
                 content.classList.remove("fade-in");
             });
         });
-        
-        document.addEventListener("DOMContentLoaded", () => {
-            fetchReligions();
 
-            document.getElementById("add-btn").addEventListener("click", () => {
-                const name = prompt("請輸入市/區名稱：");
-                if (name) {
-                    addReligion(name);
-                }
-            });
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCounties();  // 當頁面加載完成後，呼叫函數來加載縣市資料
         });
 
-        function fetchReligions() {
-            fetch("religion_management.php?action=fetch")
+        function loadCounties() {
+            fetch('landscape_management.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: 'action=getCounties' // 呼叫後端的 getCounties 動作
+            })
+                .then(response => response.json())  // 解析返回的 JSON 資料
+                .then(data => {
+                    const countrySelect = document.getElementById('country');
+                    data.forEach(county => {
+                        const option = document.createElement('option');
+                        option.value = county.id;
+                        option.textContent = county.name;  // 顯示縣市名稱
+                        countrySelect.appendChild(option);  // 加入選單
+                    });
+                });
+        }
+
+        function loadCities() {
+            const countryId = document.getElementById('country').value;
+            fetch('landscape_management.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=getCities&country_id=${countryId}`
+            })
                 .then(response => response.json())
                 .then(data => {
-                    const tbody = document.getElementById("religion-data");
-                    tbody.innerHTML = "";
+                    const citySelect = document.getElementById('city');
+                    citySelect.innerHTML = '<option value="">請選擇市/區</option>';
+                    data.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value = city.id;
+                        option.textContent = city.name;
+                        citySelect.appendChild(option);
+                    });
+                });
+        }
+
+        function searchLandscapes() {
+            const countryId = document.getElementById('country').value;
+            const cityId = document.getElementById('city').value;
+            const name = document.getElementById('landscape_name').value;
+
+            fetch('landscape_management.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=searchLandscapes&country_id=${countryId}&city_id=${cityId}&name=${name}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    const tbody = document.getElementById('landscape-data');
+                    tbody.innerHTML = '';
                     data.forEach(item => {
-                        const tr = document.createElement("tr");
+                        const tr = document.createElement('tr');
                         tr.innerHTML = `
                             <td>${item.id}</td>
                             <td>${item.name}</td>
-                            <td><button onclick="deleteReligion(${item.id})"><i class="fas fa-trash"></i></button></td>
+                            <td>${item.addr || 'N/A'}</td>
+                            <td><button onclick="deleteLandscape(${item.id})"><i class="fas fa-trash"></i></button></td>
                         `;
                         tbody.appendChild(tr);
                     });
                 });
         }
 
-        function addReligion(name) {
-            fetch("religion_management.php?action=add", {
-                method: "POST",
-                headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                body: "name=" + encodeURIComponent(name)
-            }).then(() => fetchReligions());
-        }
-
-        function deleteReligion(id) {
-            if (confirm("確定要刪除此縣/市嗎？")) {
-                fetch("religion_management.php?action=delete&id=" + id)
-                    .then(() => fetchReligions());
-            }
+        function deleteLandscape(id) {
+            fetch('landscape_management.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `action=deleteLandscape&id=${id}`
+            })
+                .then(response => response.json())
+                .then(() => searchLandscapes());
         }
 
         const menuIcon = document.getElementById('menu-icon');

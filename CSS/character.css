@@ -1,0 +1,151 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* 導覽列 */
+.navbar {
+    position: fixed;
+    top: 0;
+    background: #076585;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #fff, #076585);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #fff, #076585); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */    
+    z-index: 1000;
+}
+
+/* 滑鼠懸停效果 */
+.navbar a:hover {
+    color: #7cb6ec; /* 改變顏色 */
+    transform: scale(1.1); /* 略微放大文字 */
+  }
+
+/* 導覽列右側(首頁、崇敬對象、問事、管理者) */
+.menu{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+/* 導覽列左側(logo圖示) */
+.navbar img{
+    padding: 2%;
+    width: 20%;
+}
+
+/* 導覽列超連結 */
+.navbar a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-size: large;
+}
+
+.navbar a.active {
+    font-weight: bold;
+}
+
+.content {  
+    display: flex;  
+    flex: 1;  
+    padding: 50px 20px 60px;  
+    background-image: url(../Img/buddha.jpg);  
+    background-size: cover;  
+    background-position: center;  
+    position: relative; /* 確保遮罩層相對於這個容器 */  
+}  
+
+.content::before {  
+    content: '';  
+    position: absolute;  
+    top: 0;  
+    left: 0;  
+    right: 0;  
+    bottom: 0;  
+    background-color: rgba(255, 255, 255, 0.5); /* 黑色半透明遮罩 */  
+    z-index: 1; /* 確保在背景圖片上方 */  
+}
+
+
+.character1, .character2, .character3 {
+    position: relative;
+    z-index: 2; /* 確保內容在遮罩之上 */
+    width: 25%; /* 每個區塊寬度設定為父容器的 25% */
+    transform: scale(0.9);  /* 用縮放讓區塊變小 */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;  /* 讓縮放和陰影過渡更平滑 */
+    background-color: rgba(29, 111, 141, 0.8); /* 半透明背景色，增加對比 */
+    background: -webkit-linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(29, 111, 141, 0.8));  /* 與背景的對比更加明顯 */
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(29, 111, 141, 0.8)); /* 加強漸變效果 */
+    padding-top: 5%;
+    border-radius: 10px; /* 增加圓角，使區塊看起來更柔和 */
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2); /* 增加陰影，讓區塊看起來浮起來 */
+}
+
+/* 當滑鼠懸停時，增強突起感 */
+.character1:hover, .character2:hover, .character3:hover {
+    transform: scale(1.05); /* 當滑鼠懸停時稍微放大，強化浮起感 */
+    box-shadow: 0px 12px 20px rgba(0, 0, 0, 0.3); /* 增加陰影，讓區塊更突顯 */
+}
+
+
+
+
+/* 角色圖片區塊 */
+.character1_photo{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 3%;
+}
+
+/* 角色區塊超連結 */
+.character1 a{
+    text-decoration: none;
+    color: black;
+}
+
+/* 角色介紹區塊 */
+.character1_introduce{
+    padding:20px 30px 0 30px
+}
+
+/* 角色圖片區塊 */
+.character3_photo{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 3%;
+}
+
+/* 角色區塊超連結 */
+.character3 a{
+    text-decoration: none;
+    color: black;
+}
+
+/* 角色介紹區塊 */
+.character3_introduce{
+    padding:20px 30px 0 30px
+}
+
+
+/* 角色圖片區塊 */
+.character2_photo{
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 3%;
+}
+
+/* 角色區塊超連結 */
+.character2 a{
+    text-decoration: none;
+    color: black;
+}
+
+/* 角色介紹區塊 */
+.character2_introduce{
+    padding:20px 30px 0 30px
+}

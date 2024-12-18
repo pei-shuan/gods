@@ -6,188 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>地景GIS平台 - 新莊靈世宮</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="CSS/temple_info.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
     <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #FDF8F1;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        /* Fade In Animation */
+        .fade-in {
+            opacity: 0;
+            animation: fadeInAnimation 2s forwards;
         }
 
-        /* 導覽列 */
-        .navbar {
-            background-color: #F2D3A4;
-            padding: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: black;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-        }
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
 
-        .navbar a {
-            color: black;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: normal;
-        }
-
-        .navbar a:hover {
-            background-color: white;
-            padding: 5px;
-        }
-
-        .navbar a.active {
-            font-weight: bold;
-        }
-
-        .navbar .logo {
-            font-size: 20px;
-            font-weight: bold;
-        }
-
-        /* 頁面內容 */
-        .title {
-            display: flex;
-            justify-content: space-between;
-            padding: 90px 40px 10px;
-            flex: 1;
-            align-items: flex-start;
-        }
-
-        .content {
-            display: flex;
-            justify-content: center;
-            padding: 5px 20px 60px;
-            flex: 1;
-            align-content: center;
-            flex-direction: row;
-            flex-wrap: wrap;
-        }
-
-        /* 左半部分 */
-        .left-section,
-        .right-section {
-            width: 50%;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .title h1 {
-            margin-bottom: 1px;
-        }
-
-        .info-box {
-            background-color: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .info-box h3 {
-            margin-bottom: 10px;
-            font-size: 20px;
-        }
-
-        #map {
-            width: 100%;
-            height: 300px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        .copyable {
-            cursor: pointer;
-            color: #007bff;
-        }
-
-        .copyable:hover {
-            text-decoration: underline;
-        }
-
-        /* 分頁按鈕 */
-        .pagination {
-            text-align: center;
-            margin: 0 auto;
-        }
-
-        .pagination a {
-            margin: 0 5px;
-            padding: 10px 15px;
-            text-decoration: none;
-            background-color: #EEA970;
-            color: white;
-            border-radius: 5px;
-        }
-
-        .pagination a:hover {
-            background-color: #555;
-        }
-
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            right: -250px;
-            width: 250px;
-            height: 100%;
-            background-color: #F2D3A4;
-            color: black;
-            transition: right 0.3s ease;
-            z-index: 1500;
-            padding-top: 60px;
-            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
-        }
-
-        .sidebar a {
-            padding: 15px 25px;
-            display: block;
-            font-size: 16px;
-            color: black;
-            text-decoration: none;
-            transition: background-color 0.2s;
-        }
-
-        .sidebar a i {
-            margin-right: 8px;
-        }
-
-        .sidebar a:hover {
-            background-color: #EEE;
-        }
-
-        .sidebar .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 15px;
-            font-size: 24px;
-            cursor: pointer;
+            100% {
+                opacity: 1;
+            }
         }
     </style>
+    
 </head>
 
 <body>
 
-    <!-- 導覽列 -->
-    <div class="navbar">
-        <a href="homepage.html">
-            <img src="Img/logo.png" style="width: 7%; height: 15%;">
-            <img src="Img/Gis of gods.png" style="width: 15%; height: 12%; margin-right: 76%; margin-top: 1.5%;">
-        </a>
-        <div class="menu">
-            <a href="homepage.html">首頁</a>
-            <a href="count_gods.php" class="active">崇敬對象</a>
-            <a href="gods_chatroom.html">問事</a>
-            <i class="fas fa-bars" id="menu-icon" style="cursor: pointer; color: black;"></i> <!-- 替換成圖示 -->
-        </div>
-    </div>
+    <div class="navbar">  
+        <div class="container-fluid d-flex align-items-center">  
+            <div class="col-3 d-flex align-items-center">  
+                <a href="homepage.html"><img src="Img/new_logo.png" alt="Logo" class="logo"></a>  
+            </div>  
+            <nav class="menu col-9 text-right">  
+                <a href="homepage.html" class="active">首頁</a>  
+                <a href="count_gods.html">崇敬對象</a>  
+                <a href="character.html">問事</a>  
+                <a href="login.html">管理者</a>  
+            </nav>  
+        </div>  
+    </div> 
 
     <!-- 頁面內容 -->
     <div class="title">
@@ -202,16 +58,33 @@
             </div>
             <div class="info-box">
                 <h3>建築類型</h3>
-                <p>平房、公寓、大樓等建物作為住家、工廠或其他用途之場所內（與左右建物相鄰，或為其一部份）。</p>
+                <p>寺廟</p>
             </div>
             <div class="info-box">
                 <h3>歷史</h3>
-                <p>內容</p>
+                <p>-</p>
             </div>
             <div class="info-box">
                 <h3>備註</h3>
                 <p>本宮每星期六晚上八點濟世辦事。</p>
             </div>
+            <div class="info-box">
+                <h3>官網連結</h3>
+                <p>https://www.facebook.com/lsg.com.tw/?locale=zh_TW</p>
+            </div>
+            <div class="info-box">
+                <h3>電話</h3>
+                <p>02-8522-2212</p>
+            </div>
+            <div class="info-box">
+                <h3>宗教類型</h3>
+                <p>佛教</p>
+            </div>
+            <div class="info-box">
+                <h3>組織類型</h3>
+                <p>宗教組織</p>
+            </div>
+            
 
         </div>
         <!-- 右半部分 -->
@@ -223,11 +96,7 @@
                         width="100%" height="100%" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false"
                         tabindex="0"></iframe>
                 </div>
-                <p><span>座標：</span><span class="copyable" onclick="copyToClipboard('25.05851, 121.463897')">25.05851, 121.463897</span></p>
-                <p><span>地址：</span><span class="copyable" onclick="copyToClipboard('新北市新莊區化成路403巷29號')">新北市新莊區化成路403巷29號</span></p>
-                <p><span>電話：</span><span class="copyable" onclick="copyToClipboard('02-8522-2212')">02-8522-2212</span></p>
-                <p>開放時間：</p>
-                <p>組織類型：</p>
+                <p><span>座標：</span><span class="copyable" onclick="copyToClipboard('25.05851, 121.463897')">25.05851, 121.463897</p>
             </div>
             
             <div class="info-box">
@@ -236,8 +105,50 @@
             </div>
 
             <div class="info-box">
-                <h3>相關人物</h3>
-                <p>內容</p>
+                <h3>地址</h3>
+                <p>新北市新莊區化成路403巷29號</p>
+            </div>
+
+            <div class="info-box">
+                <h3>營業時間</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>星期</th>
+                            <th>營業時間</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>週一</td>
+                            <td>上午 8:00 - 下午 9:00</td>
+                        </tr>
+                        <tr>
+                            <td>週二</td>
+                            <td>上午 8:00 - 下午 9:00</td>
+                        </tr>
+                        <tr>
+                            <td>週三</td>
+                            <td>上午 8:00 - 下午 9:00</td>
+                        </tr>
+                        <tr>
+                            <td>週四</td>
+                            <td>上午 8:00 - 下午 9:00</td>
+                        </tr>
+                        <tr>
+                            <td>週五</td>
+                            <td>上午 8:00 - 下午 9:00</td>
+                        </tr>
+                        <tr>
+                            <td>週六</td>
+                            <td>上午 8:00 - 下午 11:00</td>
+                        </tr>
+                        <tr>
+                            <td>週日</td>
+                            <td>上午 8:00 - 下午 9:00</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
 
         </div>
@@ -247,27 +158,18 @@
         </section>
     </div>
 
-    <!-- 側邊欄 -->
-    <div class="sidebar" id="sidebar">
-        <span class="close-btn" id="close-btn">&times;</span>
-        <a href="management/manager_login.html"><i class="fas fa-user-cog"></i> 管理者</a>
-        <a href="#">設定</a>
-        <a href="#">幫助</a>
-        <a href="#">聯繫我們</a>
-    </div>
 
     <script>
-        // 顯示側邊欄
-        const sidebar = document.getElementById("sidebar");
-        const menuIcon = document.getElementById("menu-icon");
-        const closeBtn = document.getElementById("close-btn");
 
-        menuIcon.addEventListener("click", () => {
-            sidebar.style.right = "0"; // 顯示側邊欄
-        });
+        // 監聽頁面載入事件，為內容加上 fade-in 類
+        document.addEventListener("DOMContentLoaded", function () {
+            const content = document.querySelector(".content");
+            content.classList.add("fade-in");
 
-        closeBtn.addEventListener("click", () => {
-            sidebar.style.right = "-250px"; // 隱藏側邊欄
+            // 清除動畫類別，以便下一次重新播放
+            content.addEventListener("animationend", () => {
+                content.classList.remove("fade-in");
+            });
         });
 
         function initMap() {
